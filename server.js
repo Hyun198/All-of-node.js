@@ -1,17 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const { resolveInclude } = require('ejs');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static('public'));
 
 const users = [];
 
 app.get('/', (req, res) => {
-    const signupSuccess = req.query.signupSuccess === 'true';
+    const signupSuccess = req.cookies.signupSuccess === 'true';
 
     res.render('index', {signupSuccess});
 });
@@ -33,7 +35,8 @@ app.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         users.push({ username, password: hashedPassword });
 
-        res.redirect('/?signupSuccess=true');
+        res.cookie('signupSuccess', 'true', {maxAge: 5000})
+        res.redirect('/');
     } catch (err) {
         console.error('회원가입 오류:', err);
         res.status(500).send('회원가입에 오류가 발생');
