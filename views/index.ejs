@@ -7,12 +7,20 @@
     <title>Home</title>
   </head>
   <body>
+    <% if (loggedInUser) { %>
     <h1>Home</h1>
+    <p>안녕하세요, <%= loggedInUser.username %>님!</p>
 
-    <% if(signupSuccess) {%>
-    <div class="success-message">회원가입이 완료되었습니다!</div>
-    <% } %>
-
+    <a href="/protected">보호된 페이지</a>
+    <form action="/logout" method="POST">
+      <button type="submit">로그아웃</button>
+    </form>
+    <% } else { %>
+    <h1>Home</h1>
     <a href="/signup">Sign up</a>
+    <a href="/login">Login</a>
+    <a href="/protected">보호된 페이지(로그인해야만 가능)</a>
+
+    <% } %>
   </body>
 </html>

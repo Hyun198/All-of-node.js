@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <% if (typeof errorMessage !== 'undefined') { %>
+    <script>
+      function displayError(errorMessage) {
+        if (errorMessage) {
+          alert(errorMessage);
+        }
+      }
+
+      displayError("<%= errorMessage %>");
+    </script>
+    <% } %>
+
+    <h1>로그인</h1>
+    <form action="/login" method="POST">
+      <label for="username">사용자명:</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">비밀번호:</label>
+      <input type="password" id="password" name="password" required />
+      <button type="submit">로그인</button>
+    </form>
+
+    <a href="/">홈으로</a>
+  </body>
+</html>
