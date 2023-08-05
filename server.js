@@ -126,6 +126,7 @@ app.post('/logout', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('server is running on 3000')
+console.log()
+app.listen(proces.env.PORT, () => {
+    console.log(`server is running on ${process.env.PORT}`)
 })
