@@ -53,7 +53,7 @@ app.post('/signup', async (req, res) => {
     try {
         const existingUser = await User.findOne( {username});
         if (existingUser) {
-            return res.status(409).render('signup', {errorMessage: "이미 사용중인 아이디입니다."})
+            return res.render('signup', {errorMessage: "이미 사용중인 아이디입니다."})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,12 +65,10 @@ app.post('/signup', async (req, res) => {
         });
         await newUser.save();
         
-        req.session.message = '회원가입이 성공적으로 완료되었습니다!';
-
-        res.redirect('/');
+        return res.render('signup', {successMessage: '회원가입이 완료되었습니다!'})
     } catch (err) {
         console.error('회원가입 오류:', err);
-        res.status(500).send('회원가입에 오류가 발생');
+        return res.render('signup', { errorMessage: '회원가입 중 오류가 발생했습니다.'})
 
     }
 });
@@ -127,6 +125,6 @@ app.post('/logout', (req, res) => {
 })
 
 console.log()
-app.listen(proces.env.PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log(`server is running on ${process.env.PORT}`)
 })

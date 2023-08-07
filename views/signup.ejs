@@ -7,6 +7,20 @@
     <title>Signup</title>
   </head>
   <body>
+    <% if(typeof successMessage === 'undefined') successMessage=null; %> <%
+    if(typeof errorMessage === 'undefined') errorMessage =null; %> <% if
+    (successMessage !== null) { %>
+    <script>
+      alert("<%= successMessage %>");
+      setTimeout(function () {
+        window.location.href = "/";
+      }, 500); // 0.5초 후 리디렉션
+    </script>
+    <% } else if (errorMessage !== null) { %>
+    <script>
+      alert("<%= errorMessage %>");
+    </script>
+    <% } %>
     <h1>Sign up</h1>
     <form action="/signup" method="POST">
       <label for="username">사용자명:</label>
