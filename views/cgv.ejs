@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>CGV 출근시간 계산</h2>
+    <label id="myLabel">
+      <input type="radio" name="part_time" value="open" />오픈
+      <input type="radio" name="part_time" value="close" />마감
+      <input type="radio" name="part_time" value="close2" />마감2 <br />
+      영화 시간
+      <br />
+      <input type="text" id="time" /><br />
+      근무 시간 <br />
+      <input type="radio" name="work_time" value="6" />6h
+      <input type="radio" name="work_time" value="6:30" />6.5h
+      <input type="radio" name="work_time" value="7" />7h
+      <input type="radio" name="work_time" value="7:30" />7.5h
+      <br />
+
+      <button onclick="getSelectedValue()">데이터 가져오기</button>
+    </label>
+    <p id="output">HI</p>
+    <a href="/">리셋</a>
+    <script src="index.js"></script>
+  </body>
+</html>

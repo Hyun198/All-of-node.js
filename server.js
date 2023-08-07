@@ -124,6 +124,11 @@ app.post('/logout', (req, res) => {
     })
 })
 
+app.get('/cgv', (req,res) => {
+    res.render('cgv');
+})
+
+
 console.log()
 app.listen(process.env.PORT, () => {
     console.log(`server is running on ${process.env.PORT}`)
