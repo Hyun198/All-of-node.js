@@ -7,10 +7,11 @@
   </head>
   <body>
     <h1>회원 프로필 페이지</h1>
-    회원아이디 : <%=loggedInUser.username %>
+    회원아이디 : <%=user.username %>
     <br />
-    생년월일 : <%=loggedInUser.birthdate %>
+    생년월일 : <%=user.birthdate %>
     <br />
+    <img src="/profile-image/<%=user.id %>" alt="profile Image" />
     <a href="/">홈으로</a>
 
     <script>

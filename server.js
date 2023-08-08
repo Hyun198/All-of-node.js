@@ -9,7 +9,8 @@ const mongoose = require('mongoose');
 
 const User = require('./model/User');
 
-const upload = multer({dest: 'uploads/'})
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -66,7 +67,10 @@ app.post('/signup',  upload.single("profileImage"), async (req, res) => {
             username,
             password: hashedPassword,
             birthdate: new Date(birthdate),
-            
+            profileImage: {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+            },
         });
         await newUser.save();
         
@@ -113,13 +117,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
+    const loggedInUser = req.session.user;
     if (!req.session.user) {
         return res.redirect('/login');
     }
 
-    const loggedInUser = req.session.user;
-
-    res.render('profile',{ loggedInUser })
+    res.render('profile',{ user:loggedInUser })
 })
 
 app.post('/logout', (req, res) => {
@@ -135,6 +138,21 @@ app.post('/logout', (req, res) => {
         res.redirect('/login');
     })
 })
+
+app.get('/profile-image/:userId', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user || !user.profileImage) {
+            return res.status(404).send('이미지를 찾을 수 없습니다.');
+        }
+
+        res.set('Content-Type', user.profileImage.contentType);
+        res.send(user.profileImage.data);
+    } catch (error) {
+        console.error('이미지 불러오기 오류:', error);
+        res.status(500).send('이미지 불러오기에 오류가 발생했습니다.');
+    }
+});
 
 app.get('/cgv', (req,res) => {
     res.render('cgv');

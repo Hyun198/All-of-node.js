@@ -11,7 +11,7 @@
     <h1>Home</h1>
     <p>안녕하세요, <%= loggedInUser.username %>님!</p>
 
-    <a href="/protected">보호된 페이지</a>
+    <a href="/profile">보호된 페이지</a>
     <form action="/logout" method="POST">
       <button type="submit">로그아웃</button>
     </form>
@@ -20,7 +20,7 @@
     <ul>
       <li><a href="/signup">Sign up</a></li>
       <li><a href="/login">Login</a></li>
-      <li><a href="/protected">보호된 페이지(로그인해야만 가능)</a></li>
+      <li><a href="/profile">보호된 페이지(로그인해야만 가능)</a></li>
       <li><a href="/cgv">cgv 시간 계산</a></li>
     </ul>
 
