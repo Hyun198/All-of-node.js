@@ -22,12 +22,18 @@
     </script>
     <% } %>
     <h1>Sign up</h1>
-    <form action="/signup" method="POST">
+    <form action="/signup" method="POST" enctype="multipart/form-data">
       <label for="username">사용자명:</label>
       <input type="text" id="username" name="username" required />
 
       <label for="password">비밀번호:</label>
       <input type="password" id="password" name="password" required />
+
+      <label for="birthdate">생년월일:</label>
+      <input type="date" id="birthdate" name="birthdate" required />
+
+      <label for="profileImage">프로필 사진:</label>
+      <input type="file" name="profileImage" />
 
       <button type="submit">가입하기</button>
     </form>

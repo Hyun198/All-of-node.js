@@ -1,12 +1,15 @@
 require('dotenv').config();
+const multer = require('multer');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+
 const User = require('./model/User');
 
+const upload = multer({dest: 'uploads/'})
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -14,11 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
 
+
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
-
     cookie: {
         secure: false,
         maxAge: 1000 * 60 * 60 * 24,
@@ -38,6 +41,7 @@ const connectDB = async ()=>{
 
 connectDB();
 
+
 app.get('/', (req, res) => {
     const loggedInUser = req.session.user;
     
@@ -48,22 +52,24 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 })
 
-app.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+app.post('/signup',  upload.single("profileImage"), async (req, res) => {
+    const { username, password, birthdate } = req.body;
     try {
         const existingUser = await User.findOne( {username});
         if (existingUser) {
             return res.render('signup', {errorMessage: "이미 사용중인 아이디입니다."})
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
-       /*  users.push({ username, password: hashedPassword });
-        */
+        
+
         const newUser = new User({
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            birthdate: new Date(birthdate),
+            
         });
         await newUser.save();
+        
         
         return res.render('signup', {successMessage: '회원가입이 완료되었습니다!'})
     } catch (err) {
@@ -90,7 +96,13 @@ app.post('/login', async (req, res) => {
         if (!isPasswordMatch) {
             return res.status(401).render('login', {errorMessage:'비밀번호가 일치하지 않습니다.' })
         }
-        req.session.user = user;
+        const loggedInUser = {
+            id: user._id,
+            username: user.username,
+            birthdate: new Date(user.birthdate),
+        }
+        
+        req.session.user = loggedInUser;
 
         res.redirect('/');
     } catch (err) {
@@ -100,14 +112,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/protected', (req, res) => {
+app.get('/profile', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
 
-    const loginUser = req.session.user;
+    const loggedInUser = req.session.user;
 
-    res.render('protected')
+    res.render('profile',{ loggedInUser })
 })
 
 app.post('/logout', (req, res) => {
