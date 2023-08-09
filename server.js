@@ -43,10 +43,17 @@ const connectDB = async ()=>{
 connectDB();
 
 
-app.get('/', (req, res) => {
-    const loggedInUser = req.session.user;
+app.get('/', async (req, res) => {
     
-    res.render('index', { loggedInUser});
+    try {
+        const users = await User.find();
+        const loggedInUser = await req.session.user;
+
+        res.render('home', { users,loggedInUser });
+    } catch (err) {
+        console.error('유저 정보 가져오기 오류:', err);
+        res.status(500).send('유저 정보를 가져오는데 오류가 생겼습니다.');    
+    }
 });
 
 app.get('/signup', (req, res) => {
@@ -108,21 +115,23 @@ app.post('/login', async (req, res) => {
         
         req.session.user = loggedInUser;
 
-        res.redirect('/');
+        res.redirect(`/profile/${user._id}`);
     } catch (err) {
         console.error('로그인 오류:', err);
-        res.status(500).send('로그인에 오류가 발생했습니다.');
+        res.redirect('/login');
 
     }
 });
 
 app.get('/profile', (req, res) => {
     const loggedInUser = req.session.user;
+    
     if (!req.session.user) {
         return res.redirect('/login');
     }
+   
 
-    res.render('profile',{ user:loggedInUser })
+    res.render('profile',{ user: loggedInUser})
 })
 
 app.post('/logout', (req, res) => {
@@ -135,7 +144,7 @@ app.post('/logout', (req, res) => {
             console.error("세션 제거 오류:", err);
             return res.status(500).send('로그아웃에 문제 발생');
         }
-        res.redirect('/login');
+        res.redirect('/');
     })
 })
 
@@ -154,12 +163,74 @@ app.get('/profile-image/:userId', async (req, res) => {
     }
 });
 
-app.get('/cgv', (req,res) => {
+
+app.get('/profile/:userId', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+
+        if (!user) {
+            return res.status(404).send('유저를 찾을 수 없습니다.');
+        }
+        const loggedInUser = req.session.user;
+       /*  console.log(user)
+        console.log(loggedInUser);
+ */
+        // 로그인된 유저와 프로필 페이지의 유저를 비교하여 같으면 true, 다르면 false
+        const isSameUser = loggedInUser && user._id.toString() === loggedInUser.id.toString();
+        
+        
+        res.render('profile', { user,loggedInUser, isSameUser });
+    } catch (err) {
+        console.error('프로필 페이지 오류:', err);
+        return res.status(500).send('프로필 페이지 로등 중 오류가 발생했습니다.');
+    }
+});
+
+
+
+app.get('/edit-profile', async (req, res) => {
+    try {
+        const loggedInUser = req.session.user;
+        if (!loggedInUser) {
+            return res.redirect('/login');
+        }
+        const user = await User.findById(loggedInUser.id);
+        
+        res.render('edit-profile', { user });
+    } catch (err) {
+        console.error('프로필 수정 페이지오류:', err);
+        res.status(500).send('프로필 수정 중 오류 발생');
+    }
+});
+
+app.post('/update-profile', async (req, res) => {
+    try {
+        const loggedInUser = req.session.user;
+        if (!loggedInUser) {
+            return res.redirect('/login');
+        }
+
+        const { username, birthdate } = req.body;
+        const user = await User.findById(loggedInUser.id);
+        
+
+        user.username = username;
+        user.birthdate = birthdate;
+
+        await user.save();
+
+        return res.redirect('/profile/' + loggedInUser.id);
+    } catch (err) {
+        console.error('프로필 수정 오류:', err);
+        return res.status(500).send('프로필 수정 중 오류 발생');
+    }
+});
+
+app.get('/cgv', (req, res) => {
     res.render('cgv');
-})
+});
 
 
-console.log()
 app.listen(process.env.PORT, () => {
     console.log(`server is running on ${process.env.PORT}`)
 })
