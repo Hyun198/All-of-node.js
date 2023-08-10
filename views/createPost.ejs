@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Post</title>
+  </head>
+  <body>
+    <h1>게시판 작성</h1>
+    <form action="/create-post" method="POST" enctype="multipart/form-data">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" required />
+      <br />
+
+      <label for="desc">본문</label>
+      <textarea type="text" id="desc" name="desc" rows="4" required></textarea>
+      <br />
+
+      <label for="images">이미지 첨부</label>
+      <input type="file" id="images" name="images" accept="image/*" multiple />
+      <br />
+      <button type="submit">글쓰기</button>
+    </form>
+  </body>
+</html>

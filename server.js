@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 
 const User = require('./model/User');
+const Post = require('./model/Post');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -57,6 +58,18 @@ app.get('/', async (req, res) => {
         res.status(500).send('유저 정보를 가져오는데 오류가 생겼습니다.');    
     }
 });
+
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.render('users', {users});
+    } catch (err) {
+        console.error('유저 정보 불러오기 오류', err);
+        res.status(500).send('유저 정보 불러오기 오류');
+    }
+    
+    
+})
 
 app.get('/signup', (req, res) => {
     res.render('signup');
@@ -249,6 +262,36 @@ app.delete('/delete-profile/:userId', async (req, res) => {
         return res.status(500).send('회원 탈퇴 중 오류 발생');
     }
 });
+
+app.get('/createPost', async (req, res) => {
+    res.render('createPost');
+})
+
+app.post('/create-post', upload.array('images', 3), async (req, res) => {
+    try {
+        const { title, desc } = req.body;
+        const images = req.files.map(file => ({
+            data: file.buffer,
+            contentType: file.mimetype
+        }));
+        const author = req.session.user;
+
+        const newPost = await Post.create({
+            title,
+            desc,
+            images,
+            author
+        });
+
+        console.log('게시글 생성 완료');
+        
+        res.redirect('/');
+    } catch (err) {
+        console.error('게시글 작성 오류:', err);
+        res.status(500).send('게시글 생성 중 오류가 발생했습니다.');
+    }
+})
+
 
 app.get('/cgv', (req, res) => {
     res.render('cgv');
