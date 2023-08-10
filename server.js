@@ -51,8 +51,8 @@ app.get('/', async (req, res) => {
     try {
         const users = await User.find();
         const loggedInUser = await req.session.user;
-
-        res.render('home', { users,loggedInUser });
+        const posts = await Post.find();
+        res.render('home', { users,posts,loggedInUser });
     } catch (err) {
         console.error('유저 정보 가져오기 오류:', err);
         res.status(500).send('유저 정보를 가져오는데 오류가 생겼습니다.');    
@@ -274,17 +274,17 @@ app.post('/create-post', upload.array('images', 3), async (req, res) => {
             data: file.buffer,
             contentType: file.mimetype
         }));
-        const author = req.session.user;
+        const author = req.session.user.username;
 
         const newPost = await Post.create({
             title,
             desc,
             images,
-            author
+            author,
         });
 
         console.log('게시글 생성 완료');
-        
+
         res.redirect('/');
     } catch (err) {
         console.error('게시글 작성 오류:', err);
@@ -292,6 +292,16 @@ app.post('/create-post', upload.array('images', 3), async (req, res) => {
     }
 })
 
+app.get('/posts', async (req, res) => {
+    try {
+        const posts = await Post.find();
+        res.render('posts', {posts});
+    } catch (err) {
+        console.error('게시글 정보 불러오기 오류', err);
+        res.status(500).send('게시글 정보 불러오기 오류');
+    }
+    
+})
 
 app.get('/cgv', (req, res) => {
     res.render('cgv');

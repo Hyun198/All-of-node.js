@@ -45,6 +45,18 @@
       <li><a href="/users">가입된 유저들 목록</a></li>
     </ul>
     <h2>전체 게시판</h2>
+    <ul>
+      <% posts.forEach(post =>{ %>
+      <li>
+        <p>제목: <%=post.title%></p>
+        <p>본문: <%=post.desc %></p>
+        <p>작성자: <%=post.author %></p>
+        <p>작성날짜: <%=post.updatedAt%></p>
+      </li>
+
+      <% }) %>
+    </ul>
+
     <% } %>
   </body>
 </html>
