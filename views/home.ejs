@@ -10,17 +10,29 @@
     <% if (loggedInUser) { %>
     <h1>Home</h1>
     <p>안녕하세요, <%= loggedInUser.username %>님!</p>
+    <form action="/logout" method="POST">
+      <button type="submit">로그아웃</button>
+    </form>
     <ul>
       <li>
         <a href="/profile/<%=loggedInUser.id %>"
-          >보호된 페이지(로그인해야만 가능)</a
+          >프로필 페이지(로그인해야만 가능)</a
         >
       </li>
       <li><a href="/cgv">cgv 시간 계산</a></li>
     </ul>
-    <form action="/logout" method="POST">
-      <button type="submit">로그아웃</button>
-    </form>
+
+    <ul>
+      <% users.forEach(user =>{ %>
+      <li>
+        <p>사용자명: <%= user.username %></p>
+        <a href="/profile/<%=user._id %>">
+          <img src="/profile-image/<%=user.id%>" alt="프로필사진" />
+        </a>
+      </li>
+      <% }) %>
+    </ul>
+
     <% } else { %>
     <h1>Home</h1>
     <ul>

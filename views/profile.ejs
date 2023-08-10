@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Profile <%=user.username %></title>
   </head>
   <body>
     <h1>회원 프로필 페이지</h1>
@@ -18,13 +18,19 @@
       height="700"
     />
     <br />
+    <a href="/">홈으로</a><br />
     <% if(isSameUser) { %>
-    <a href="/edit-profile">프로필 수정</a>
+    <a href="/edit-profile/<%=user._id %>">프로필 수정</a>
+    <form
+      id="delete-form"
+      action="/delete-profile/<%=user.id %>?_method=DELETE"
+      method="POST"
+    >
+      <button type="submit">회원 탈퇴</button>
+    </form>
     <form action="/logout" method="POST">
       <button type="submit">로그아웃</button>
     </form>
     <% } %>
-
-    <a href="/">홈으로</a>
   </body>
 </html>

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 const User = require('./model/User');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 
 
 app.use(session({
@@ -186,43 +188,65 @@ app.get('/profile/:userId', async (req, res) => {
     }
 });
 
-
-
-app.get('/edit-profile', async (req, res) => {
+app.get('/edit-profile/:userId', async (req, res) => {
     try {
-        const loggedInUser = req.session.user;
-        if (!loggedInUser) {
-            return res.redirect('/login');
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).send('유저를 찾을 수 없습니다.');
         }
-        const user = await User.findById(loggedInUser.id);
         
-        res.render('edit-profile', { user });
+        res.render('profile-edit', { user });
+
     } catch (err) {
-        console.error('프로필 수정 페이지오류:', err);
-        res.status(500).send('프로필 수정 중 오류 발생');
+        console.error('프로필 수정 페이지 오류:', err);
+        res.status
     }
-});
+})
 
-app.post('/update-profile', async (req, res) => {
+app.put('/update-profile/:userId', upload.single('profileImage'), async (req, res) => {
     try {
-        const loggedInUser = req.session.user;
-        if (!loggedInUser) {
-            return res.redirect('/login');
+        const userId = req.params.userId;
+        const { username, birthdate } = req.body;
+        const updateUser = await User.findByIdAndUpdate(
+            userId,
+            { username, birthdate },
+            { new: true }
+        ).catch(error => {
+            console.error('데이터베이스 업데이트 오류:', error);
+            return null;
+        });
+
+        if (!updateUser) {
+            return res.status(404).send('유저를 찾을 수 없습니다.');
         }
 
-        const { username, birthdate } = req.body;
-        const user = await User.findById(loggedInUser.id);
-        
-
-        user.username = username;
-        user.birthdate = birthdate;
-
-        await user.save();
-
-        return res.redirect('/profile/' + loggedInUser.id);
+        if (req.file) {
+            updateUser.profileImage.data = req.file.buffer;
+            updateUser.profileImage.contentType = req.file.mimetype;
+            await updateUser.save();
+        }
+        return res.redirect('/profile/' + userId);
     } catch (err) {
-        console.error('프로필 수정 오류:', err);
-        return res.status(500).send('프로필 수정 중 오류 발생');
+        console.error('프로필 수정 오류', err);
+    }
+})
+
+app.delete('/delete-profile/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const deletedUser = await User.findByIdAndDelete(userId);
+        
+        if (!deletedUser) {
+            return res.status(404).send('유저를 찾을 수 없습니다.');
+        }
+        req.session.destroy(); //세션을 삭제하여 로그아웃 처리
+        return res.redirect('/');
+
+    } catch (err) {
+        console.error('회원 탈퇴 오류:', err);
+        return res.status(500).send('회원 탈퇴 중 오류 발생');
     }
 });
 
