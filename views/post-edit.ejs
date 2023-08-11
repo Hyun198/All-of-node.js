@@ -1,0 +1,15 @@
+<form action="/update-post/<%= post._id %>?_method=PUT" method="POST">
+  <label for="title">제목</label>
+  <input
+    type="text"
+    id="title"
+    name="title"
+    value="<%= post.title %>"
+    required
+  />
+
+  <label for="desc">본문</label>
+  <textarea id="desc" name="desc" required><%= post.desc %></textarea>
+
+  <button type="submit">수정하기</button>
+</form>

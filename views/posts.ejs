@@ -1,12 +1,30 @@
-<h1>전체 게시판</h1>
-<ul>
-  <% posts.forEach(post =>{ %>
-  <li>
-    <p>제목: <%=post.title%></p>
-    <p>본문: <%=post.desc %></p>
-    <p>작성자: <%=post.author %></p>
-    <p>작성날짜: <%=post.updatedAt%></p>
-  </li>
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>전체 게시판</title>
+  </head>
+  <body>
+    <h1>전체 게시판</h1>
+    <ul>
+      <% posts.forEach(post =>{ %>
+      <li>
+        <a href="/posts/<%=post._id %>">
+          <p>제목: <%=post.title%></p>
+        </a>
+        <p>본문: <%=post.desc %></p>
+        <p>작성자: <%=post.author %></p>
+        <p>작성날짜: <%=post.updatedAt%></p>
+      </li>
+      <% if (post.author === loggedInUser.username) { %>
+      <form action="/delete-post/<%=post._id %>?_method=DELETE" method="POST">
+        <button type="submit">삭제</button>
+      </form>
+      <a href="/edit-post/<%=post._id %>">수정</a>
+      <% } %> <% }) %>
+    </ul>
 
-  <% }) %>
-</ul>
+    <a href="/">홈으로</a>
+  </body>
+</html>

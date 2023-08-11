@@ -265,7 +265,7 @@ app.delete('/delete-profile/:userId', async (req, res) => {
 
 app.get('/createPost', async (req, res) => {
     res.render('createPost');
-})
+});
 
 app.post('/create-post', upload.array('images', 3), async (req, res) => {
     try {
@@ -290,18 +290,99 @@ app.post('/create-post', upload.array('images', 3), async (req, res) => {
         console.error('게시글 작성 오류:', err);
         res.status(500).send('게시글 생성 중 오류가 발생했습니다.');
     }
-})
+});
+
+app.delete('/delete-post/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const loggedInUser = req.session.user; //로그인 된 사용자 id가져오기
+        
+        
+        const deletedPost = await Post.findByIdAndDelete({
+            _id: postId,
+            author: loggedInUser.username,
+        });
+
+        if (!deletedPost) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+        return res.redirect('/posts');
+    } catch (err) {
+        console.error('게시글 삭제 오류:', err);
+    }
+});
+
+app.get('/edit-post/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+        res.render('post-edit', {post});
+    } catch (err) {
+        console.error('게시글 수정 페이지 오류:', err);
+        return res.status(500).send('게시글 수정 페이지 로딩 중 오류가 발생했습니다.');
+    }
+});
+
+app.put('/update-post/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const { title, desc } = req.body;
+
+        const updatedPost = await Post.findByIdAndUpdate(
+            postId,
+            { title, desc },
+            { new: true }
+        );
+
+        if (!updatedPost) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+
+        return res.redirect('/posts/' + postId);
+
+
+    } catch (err) {
+        console.error('게시글 수정 오류:', err);
+        return res.status(500).send('게시글 수정 중 오류가 발생했습니다.');
+    }
+    
+});
 
 app.get('/posts', async (req, res) => {
     try {
+        const loggedInUser =  req.session.user;
         const posts = await Post.find();
-        res.render('posts', {posts});
+
+        res.render('posts', { posts, loggedInUser });
     } catch (err) {
         console.error('게시글 정보 불러오기 오류', err);
         res.status(500).send('게시글 정보 불러오기 오류');
     }
     
-})
+});
+
+app.get('/posts/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const loggedInUser = await req.session.user;
+        const post = await Post.findById(postId);
+        
+
+        if (!post) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+        res.render('postDetail', { post,loggedInUser });
+    
+    } catch (err) {
+        console.error('게시글 조회 오류:', err);
+        return res.status(500).send('게시글 조회 중 오류가 발생했습니다.');
+    }
+});
+
 
 app.get('/cgv', (req, res) => {
     res.render('cgv');

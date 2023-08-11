@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,7 +48,9 @@
     <ul>
       <% posts.forEach(post =>{ %>
       <li>
-        <p>제목: <%=post.title%></p>
+        <a href="/posts/<%=post._id %>">
+          <p>제목: <%=post.title%></p>
+        </a>
         <p>본문: <%=post.desc %></p>
         <p>작성자: <%=post.author %></p>
         <p>작성날짜: <%=post.updatedAt%></p>
