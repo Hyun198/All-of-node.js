@@ -11,7 +11,7 @@
     <p>작성자: <%= post.author %></p>
     <p>작성날짜: <%= post.updatedAt %></p>
     <!-- 추가적인 정보들을 표시할 수 있음 -->
-    <% if (post.author === loggedInUser.username) { %>
+    <% if (loggedInUser && post.author === loggedInUser.username) { %>
     <form action="/delete-post/<%=post._id %>?_method=DELETE" method="POST">
       <button type="submit">삭제</button>
     </form>

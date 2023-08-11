@@ -368,13 +368,14 @@ app.get('/posts', async (req, res) => {
 app.get('/posts/:postId', async (req, res) => {
     try {
         const postId = req.params.postId;
-        const loggedInUser = await req.session.user;
+        
         const post = await Post.findById(postId);
         
-
         if (!post) {
             return res.status(404).send('게시글을 찾을 수 없습니다.');
         }
+
+        const loggedInUser = await req.session.user;
         res.render('postDetail', { post,loggedInUser });
     
     } catch (err) {
