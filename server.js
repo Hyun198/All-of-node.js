@@ -130,7 +130,7 @@ app.post('/login', async (req, res) => {
         
         req.session.user = loggedInUser;
 
-        res.redirect(`/profile/${user._id}`);
+        res.redirect('/');
     } catch (err) {
         console.error('로그인 오류:', err);
         res.redirect('/login');

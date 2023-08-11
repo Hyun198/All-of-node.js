@@ -24,7 +24,7 @@
         type="date"
         id="birthdate"
         name="birthdate"
-        value="<%= user.birthdate %>"
+        value="<%= user.birthdate.toDateString() %>"
       />
       <label for="profileImage">프로필 사진:</label>
       <input type="file" id="profileImage" name="profileImage" />

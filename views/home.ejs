@@ -9,7 +9,7 @@
   <body>
     <% if (loggedInUser) { %>
     <h1>Home</h1>
-    <p>안녕하세요, <%= loggedInUser.username %>님!</p>
+    <h2>안녕하세요, <%= loggedInUser.username %>님!</h2>
     <form action="/logout" method="POST">
       <button type="submit">로그아웃</button>
     </form>
@@ -28,10 +28,12 @@
       <% users.forEach(user =>{ %>
       <li>
         <p>사용자명: <%= user.username %></p>
+        <p>생년월일: <%= user.birthdate.toDateString() %></p>
         <a href="/profile/<%=user._id %>">
           <img src="/profile-image/<%=user.id%>" alt="프로필사진" />
         </a>
       </li>
+
       <% }) %>
     </ul>
 
@@ -48,17 +50,16 @@
     <ul>
       <% posts.forEach(post =>{ %>
       <li>
-        <a href="/posts/<%=post._id %>">
-          <p>제목: <%=post.title%></p>
-        </a>
-        <p>본문: <%=post.desc %></p>
+        제목:
+        <a href="/posts/<%=post._id %>"> <%=post.title%> </a>
+        <p>본문: <%=truncateText(post.desc, 100) %></p>
         <p>작성자: <%=post.author %></p>
-        <p>작성날짜: <%=post.updatedAt%></p>
+        <p>작성날짜: <%=post.updatedAt.toDateString()%></p>
       </li>
 
       <% }) %>
     </ul>
-
-    <% } %>
+    <% } %> <% function truncateText(text, maxLength) { if (text.length >
+    maxLength) { return text.slice(0, maxLength) + '...'; } return text; } %>
   </body>
 </html>
