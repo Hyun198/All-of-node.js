@@ -9,7 +9,15 @@
     <h1><%= post.title %></h1>
     <p>본문: <%= post.desc %></p>
     <p>작성자: <%= post.author %></p>
-    <p>작성날짜: <%= post.updatedAt %></p>
+    <p>작성날짜: <%= post.updatedAt.toDateString() %></p>
+    <% if (post.images && post.images.length >0) { %> <%
+    post.images.forEach(image=> { %>
+    <img
+      src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
+      alt="PostImage"
+    />
+    <% }); %> <% } %>
+
     <!-- 추가적인 정보들을 표시할 수 있음 -->
     <% if (loggedInUser && post.author === loggedInUser.username) { %>
     <form action="/delete-post/<%=post._id %>?_method=DELETE" method="POST">

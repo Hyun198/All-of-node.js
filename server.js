@@ -316,6 +316,11 @@ app.get('/edit-post/:postId', async (req, res) => {
     try {
         const postId = req.params.postId;
         const post = await Post.findById(postId);
+        
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+
 
         if (!post) {
             return res.status(404).send('게시글을 찾을 수 없습니다.');
@@ -327,24 +332,50 @@ app.get('/edit-post/:postId', async (req, res) => {
     }
 });
 
-app.put('/update-post/:postId', async (req, res) => {
+app.put('/update-post/:postId', upload.array('images', 3), async (req, res) => {
     try {
         const postId = req.params.postId;
         const { title, desc } = req.body;
+        const images = req.files.map(file => ({
+            data: file.buffer,
+            contentType: file.mimetype
+        }));
+        const deleteImages = req.body.deleteImages;
+        //삭제할 이미지 id들
+        const imagesToDelete = deleteImages ? deleteImages : [];
+
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+
+        //새 이미지 데이터 생성
+        const newImages = req.files.map(file => ({
+            data: file.buffer,
+            contentType: file.mimetype
+        }));
+        
+
+        const updatedImages = post.images.filter(img => !imagesToDelete.includes(img._id.toString()));
+
+        req.files.forEach(file => {
+            updatedImages.push({
+                data: file.buffer,
+                contentType: file.mimetype
+            });
+        });
 
         const updatedPost = await Post.findByIdAndUpdate(
             postId,
-            { title, desc },
+            { title, desc, images:updatedImages },
             { new: true }
         );
 
         if (!updatedPost) {
             return res.status(404).send('게시글을 찾을 수 없습니다.');
         }
-
         return res.redirect('/posts/' + postId);
-
-
     } catch (err) {
         console.error('게시글 수정 오류:', err);
         return res.status(500).send('게시글 수정 중 오류가 발생했습니다.');
