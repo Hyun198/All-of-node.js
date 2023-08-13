@@ -416,6 +416,25 @@ app.get('/posts/:postId', async (req, res) => {
 });
 
 
+app.get('/myPost', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+    
+        const username = req.session.user.username
+        const userPosts = await Post.find({ author: username });
+
+
+        res.render('myPost', { userPosts });
+    } catch (err) {
+        console.error('사용자 게시글 목록 오류:', err);
+        return res.status(500).send('사용자 게시글 목록 로딩 중 오류가 발생했습니다.');
+    }
+})
+
+
+
 app.get('/cgv', (req, res) => {
     res.render('cgv');
 });
