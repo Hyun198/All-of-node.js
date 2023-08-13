@@ -141,7 +141,7 @@ function getSelectedValue () {
             }
         } else {
             start_hour = movie_hour - Work_hour;
-            start_min = Work_minu;
+            start_min = movie_min - Work_minu;
         }
 
         end_hour = start_hour + Work_hour; 
