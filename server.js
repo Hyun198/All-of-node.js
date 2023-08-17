@@ -461,6 +461,9 @@ app.get('/cgv', async (req, res) => {
         const timesFilePath = path.join('cgv','times.txt');
         const timesData = await fs.readFile(timesFilePath, 'utf-8');
         const timesArray = timesData.split('\r\n');
+
+     
+
         res.render('cgv', {timesArray});
     }catch(err){
         console.error(err);
