@@ -6,6 +6,12 @@
     <title>Document</title>
   </head>
   <body>
+    <h1>영화 시간표</h1>
+    <ul>
+      <% for(const time of timesArray) {%>
+        <li><%= time %></li>  
+      <% } %>
+    </ul>
     <h2>CGV 출근시간 계산</h2>
     <label id="myLabel">
       <input type="radio" name="part_time" value="open" />오픈

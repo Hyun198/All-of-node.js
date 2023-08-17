@@ -4,8 +4,12 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const puppeteer = require('puppeteer');
+const fs = require('fs/promises')
+const path = require('path')
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+
 const methodOverride = require('method-override');
 
 const User = require('./model/User');
@@ -435,8 +439,36 @@ app.get('/myPost', async (req, res) => {
 
 
 
-app.get('/cgv', (req, res) => {
-    res.render('cgv');
+app.get('/cgv', async (req, res) => {
+    try{
+        const browser = await puppeteer.launch({headless:true})
+        const page = await browser.newPage()
+        await page.goto(process.env.cgv)
+    
+        const times = await page.evaluate(() =>{
+            return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
+        })
+        await fs.writeFile(path.join('cgv','times.txt'),times.join("\r\n"))
+    
+        const movies = await page.evaluate(()=>{
+            return  Array.from(document.querySelectorAll(".movie_content._wrap_time_table th a")).map(x => x.textContent)
+        })
+        
+        await fs.writeFile(path.join('cgv','movies.txt'),movies.join("\r\n"))
+    
+        await browser.close() 
+
+        const timesFilePath = path.join('cgv','times.txt');
+        const timesData = await fs.readFile(timesFilePath, 'utf-8');
+        const timesArray = timesData.split('\r\n');
+        res.render('cgv', {timesArray});
+    }catch(err){
+        console.error(err);
+        res.status(500).send('에러발생');
+    }
+
+
+    
 });
 
 
