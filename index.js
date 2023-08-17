@@ -1,9 +1,15 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-async function gettime() {
+
+function convertTime(time){
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+}
+
+async function calculateTime(timesFilePath) {
     try{
-        const timesFilePath = path.join(__dirname, 'cgv', 'times.txt');
+        
         const timesData = await fs.readFile(timesFilePath, 'utf-8');
         const timesArray = timesData.split('\n').map(time => time.trim()).filter(Boolean);
         
@@ -25,17 +31,18 @@ async function gettime() {
             }
 
         }
-        console.log("가장 빠른:"+minTime);
-        console.log("가장 늦은:"+maxTime);
+
+
+        return {minTime, maxTime};
 
     }catch(err){
-        console.error(err);
+        throw err;
     }
 }
 
-function convertTime(time){
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
-}
 
-gettime();
+
+module.exports = {
+    convertTime,
+    calculateTime
+}

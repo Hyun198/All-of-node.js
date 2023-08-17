@@ -9,8 +9,9 @@ const fs = require('fs/promises')
 const path = require('path')
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-
 const methodOverride = require('method-override');
+
+const getTime = require('./index');
 
 const User = require('./model/User');
 const Post = require('./model/Post');
@@ -455,16 +456,15 @@ app.get('/cgv', async (req, res) => {
         })
         
         await fs.writeFile(path.join('cgv','movies.txt'),movies.join("\r\n"))
-    
         await browser.close() 
 
-        const timesFilePath = path.join('cgv','times.txt');
-        const timesData = await fs.readFile(timesFilePath, 'utf-8');
-        const timesArray = timesData.split('\r\n');
+        const timesFilePath = path.join(__dirname, 'cgv', 'times.txt');
 
-     
+        const {minTime, maxTime} = await getTime.calculateTime(timesFilePath);
 
-        res.render('cgv', {timesArray});
+      
+
+        res.render('cgv',{minTime, maxTime});
     }catch(err){
         console.error(err);
         res.status(500).send('에러발생');
