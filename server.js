@@ -461,10 +461,12 @@ app.get('/cgv', async (req, res) => {
             cachedData = await fs.readFile(cachedFilePath, 'utf-8');
         }
             //파일캐싱 : 데이터 사용
-            const parsedData = JSON.parse(cachedData);
+            //const parsedData = JSON.parse(cachedData);
+
+            const parsedData = cachedData.split("\n").filter(line => line.trim() !== '');
             const {times} = parsedData;
             
-            const timesFilePath = path.join('cgv', 'times.txt');
+            const timesFilePath = path.join('cgv', 'cached_Data.txt');
             const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
         
 

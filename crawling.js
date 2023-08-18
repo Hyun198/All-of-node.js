@@ -12,14 +12,14 @@ async function performCrawling() {
         const times = await page.evaluate(() =>{
             return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
         });
-        await fs.writeFile(path.join('cgv','times.txt'),times.join("\r\n"));
+        //await fs.writeFile(path.join('cgv','times.txt'),times.join("\r\n"));
         
         await browser.close() ;
 
         const data = {times};
 
-        const cachedFilePath = path.join('cgv','cached_data.txt');
-        await fs.writeFile(cachedFilePath, JSON.stringify(data));
+        //const cachedFilePath = path.join('cgv','cached_data.txt');
+        await fs.writeFile(path.join('cgv','cached_data.txt'),times.join("\r\n"));
 
         console.log('crawling and caching completed');
     }catch(err){
