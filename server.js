@@ -12,6 +12,8 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 
 const getTime = require('./index');
+const crawling = require('./crawling');
+
 
 const User = require('./model/User');
 const Post = require('./model/Post');
@@ -442,29 +444,50 @@ app.get('/myPost', async (req, res) => {
 
 app.get('/cgv', async (req, res) => {
     try{
-        const browser = await puppeteer.launch({headless:true})
-        const page = await browser.newPage()
-        await page.goto(process.env.cgv)
-    
-        const times = await page.evaluate(() =>{
-            return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
-        })
+        const cachedFilePath = path.join('cgv','cached_Data.txt');
+        //파일 캐싱 : 데이터 저장
+        let cachedData = await fs.readFile(cachedFilePath, 'utf-8').catch(() => null);
+
+        if(!cachedData) {
+            const browser = await puppeteer.launch({headless:true});
+            const page = await browser.newPage();
+            await page.goto(process.env.cgv);
+
+            const times = await page.evaluate(() =>{
+                return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
+            });
+
+            const movies = await page.evaluate(()=>{
+                return  Array.from(document.querySelectorAll(".movie_content._wrap_time_table th a")).map(x => x.textContent)
+            });
+
+            
+
+            await browser.close() 
+
+            const data = {times, movies};
+
+            await fs.writeFile(cachedFilePath, JSON.stringify(data));
+
+            cachedData = JSON.stringify(data);
+        }
+            //파일캐싱 : 데이터 사용
+            const parsedData = JSON.parse(cachedData);
+            const {times, movies} = parsedData;
+            
+            const timesFilePath = path.join('cgv', 'times.txt');
+            const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
+        
+
+/*         
         await fs.writeFile(path.join('cgv','times.txt'),times.join("\r\n"))
     
-        const movies = await page.evaluate(()=>{
-            return  Array.from(document.querySelectorAll(".movie_content._wrap_time_table th a")).map(x => x.textContent)
-        })
+        await fs.writeFile(path.join('cgv','movies.txt'),movies.join("\r\n")) 
         
-        await fs.writeFile(path.join('cgv','movies.txt'),movies.join("\r\n"))
-        await browser.close() 
-
         const timesFilePath = path.join(__dirname, 'cgv', 'times.txt');
+*/
 
-        const {minTime, maxTime} = await getTime.calculateTime(timesFilePath);
-
-      
-
-        res.render('cgv',{minTime, maxTime});
+        res.render('cgv',{minTime, maxTime, times, movies});
     }catch(err){
         console.error(err);
         res.status(500).send('에러발생');
