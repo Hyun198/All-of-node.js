@@ -16,3 +16,43 @@
    ```bash
    git clone https://github.com/your-username/nodejs-cgv-crud-example.git
    cd nodejs-cgv-crud-example
+
+2. 의존성을 설치합니다:
+
+    ```bash
+    npm install
+
+3. 서버를 실행합니다:
+
+    ```bash
+    npm run dev
+
+## 기능 설명 
+
+1. 생성(Create)
+
+
+새로운 데이터를 생성합니다.
+
+...
+
+2. 조회(Read)
+
+
+모든 데이터를 조회하거나, 특정 데이터를 ID를 이용하여 조회합니다.
+
+...
+
+3. 업데이트(Update)
+
+
+기존 데이터를 업데이트합니다.
+
+...
+
+4. 삭제(Delete)
+
+
+특정 데이터를 삭제합니다.
+
+...
