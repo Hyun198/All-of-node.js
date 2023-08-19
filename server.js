@@ -442,15 +442,18 @@ app.get('/myPost', async (req, res) => {
 })
 
 
-const hourlyCrawling = schedule.scheduleJob('*/10 * * * *', ()=>{
-    console.log('performing hourly crawling...');
-    crawling.performCrawling();
-});
+
 
 
 
 app.get('/cgv', async (req, res) => {
+    const hourlyCrawling = schedule.scheduleJob('*/1 * * * *', ()=>{
+        console.log('performing hourly crawling...');
+        crawling.performCrawling();
+    });
     try{
+
+
         const cachedFilePath = path.join('cgv','cached_Data.txt');
         //파일 캐싱 : 데이터 저장
         let cachedData = await fs.readFile(cachedFilePath, 'utf-8').catch(() => null);
