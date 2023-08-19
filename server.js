@@ -447,7 +447,7 @@ app.get('/myPost', async (req, res) => {
 
 
 app.get('/cgv', async (req, res) => {
-    const hourlyCrawling = schedule.scheduleJob('*/1 * * * *', ()=>{
+    const hourlyCrawling = schedule.scheduleJob('*/30 * * * *', ()=>{
         console.log('performing hourly crawling...');
         crawling.performCrawling();
     });
