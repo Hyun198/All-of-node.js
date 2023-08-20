@@ -4,9 +4,6 @@ const path = require('path')
 require('dotenv').config()
 
 
-
-
-
 async function performCrawling() {
     try{
         const browser = await puppeteer.launch({headless:true})
