@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <title>Signup</title>
   </head>
   <body>
@@ -21,27 +25,44 @@
       alert("<%= errorMessage %>");
     </script>
     <% } %>
-    <h1>Sign up</h1>
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     <form action="/signup" method="POST" enctype="multipart/form-data">
-      <label for="username">사용자명:</label>
-      <input type="text" id="username" name="username" required />
+      <label for="inputPassword5" class="form-label">사용자명:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        required
+        class="form-control"
+        aria-describedby="passwordHelpBlock"
+      />
 
-      <label for="password">비밀번호:</label>
-      <input type="password" id="password" name="password" required />
+      <label for="inputPassword5" class="form-label">비밀번호:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        class="form-control"
+        aria-describedby="passwordHelpBlock"
+      />
 
       <label for="birthdate">생년월일:</label>
       <input type="date" id="birthdate" name="birthdate" required />
 
-      <label for="profileImage">프로필 사진:</label>
-      <input
-        type="file"
-        name="profileImage"
-        name="profileImage"
-        accept="image/*"
-        required
-      />
+      <div class="input-group mb-3">
+        <input
+          type="file"
+          class="form-control"
+          id="inputGroupFile02"
+          name="profileImage"
+          accept="image/*"
+          required
+        />
+        <label class="input-group-text" for="inputGroupFile02">Upload</label>
+      </div>
 
-      <button type="submit">가입하기</button>
+      <button type="submit" class="btn btn-primary btn-sm">가입하기</button>
     </form>
   </body>
 </html>

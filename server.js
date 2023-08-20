@@ -18,6 +18,7 @@ const crawling = require('./crawling');
 
 const User = require('./model/User');
 const Post = require('./model/Post');
+const { cache } = require('ejs');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -452,9 +453,7 @@ app.get('/cgv', async (req, res) => {
         crawling.performCrawling();
     });
     try{
-
-
-        const cachedFilePath = path.join('cgv','cached_Data.txt');
+        const cachedFilePath = path.join('cgv', 'cached_Data.txt');
         //파일 캐싱 : 데이터 저장
         let cachedData = await fs.readFile(cachedFilePath, 'utf-8').catch(() => null);
 
@@ -472,15 +471,6 @@ app.get('/cgv', async (req, res) => {
             const timesFilePath = path.join('cgv', 'cached_Data.txt');
             const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
         
-
-/*         
-        await fs.writeFile(path.join('cgv','times.txt'),times.join("\r\n"))
-    
-        await fs.writeFile(path.join('cgv','movies.txt'),movies.join("\r\n")) 
-        
-        const timesFilePath = path.join(__dirname, 'cgv', 'times.txt');
-*/
-
         res.render('cgv',{minTime, maxTime, times});
     }catch(err){
         console.error(err);
