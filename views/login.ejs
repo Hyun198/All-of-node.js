@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
     <title>Login</title>
-    <!-- 부트스트랩 CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
   </head>
   <body>
     <% if (typeof errorMessage !== 'undefined') { %>
@@ -26,28 +21,24 @@
     <h1>로그인</h1>
 
     <form action="/login" method="POST">
-      <label for="inputPassword5" class="form-label">사용자명:</label>
+      <label for="username">사용자명:</label>
       <input
         type="text"
         id="username"
         name="username"
         required
-        class="form-control"
-        aria-describedby="passwordHelpBlock"
       />
-      <label for="inputPassword5" class="form-label">비밀번호:</label>
+      <label for="password">비밀번호:</label>
       <input
         type="password"
         id="password"
         name="password"
         required
-        class="form-control"
-        aria-describedby="passwordHelpBlock"
       />
-      <button type="submit" class="btn btn-primary btn-sm">로그인</button>
+      <button type="submit">로그인</button>
     </form>
 
     <a href="/">홈으로</a>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </body>
 </html>

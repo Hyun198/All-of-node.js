@@ -8,42 +8,20 @@
   </head>
   <body>
     <% if (loggedInUser) { %>
-      <nav
-      class="navbar navbar-expand-lg bg-body-tertiary"
-      style="background-color: #e3f2fd"
-    >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Home</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link" href="/profile/<%=loggedInUser.id %>">Profile</a>
-            <a class="nav-link" href="/cgv">CGV</a>
-            <a class="nav-link" href="/posts">전체 게시판</a>
-            <a class="nav-link" href="/users">가입된 유저들 목록</a>
-            <form action="/logout" method="POST">
-              <button type="submit">로그아웃</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </nav>
       <h1>Home</h1>
+      <h2>안녕하세요, <%= loggedInUser.username %>님!</h2>
     <ul>
-      <li><a href="/createPost">글쓰기</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/cgv">CGV</a></li>
+      <li><a href="/users">가입된 유저들 목록</a></li>
+      <li><a href="/posts">전체 게시판</a></li>
     </ul>
-    <h1>Home</h1> 
-    <h2>안녕하세요, <%= loggedInUser.username %>님!</h2>
+    <form action="/logout" method="POST">
+      <button type="submit">로그아웃</button>
+    </form> 
+
+    <a href="/createPost">글쓰기</a></li>
+    
     <ul>
       <% users.forEach(user =>{ %>
       <li>
@@ -58,37 +36,14 @@
     </ul>
 
     <% } else { %>
-    <nav
-      class="navbar navbar-expand-lg"
-      style="background-color: #0d6efd"
-    >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Home</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="/signup"
-              >Sign up</a
-            >
-            <a class="nav-link" href="/login">Login</a>
-            <a class="nav-link" href="/profile">Profile</a>
-            <a class="nav-link" href="/cgv">CGV</a>
-            <a class="nav-link" href="/users">가입된 유저들 목록</a>
-          </div>
-        </div>
-      </div>
-    </nav>
     <h1>Home</h1>
+    <ul>
+      <li><a href="/signup">Sign up</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/cgv">CGV</a></li>
+      <li><a href="/users">가입된 유저들 목록</a></li>
+    </ul>
     <br>
     <h2>전체 게시판</h2>
     <br>
@@ -115,7 +70,6 @@
     </ul>
     <% } %> <% function truncateText(text, maxLength) { if (text.length >
     maxLength) { return text.slice(0, maxLength) + '...'; } return text; } %>
-    <!-- 부트스트랩 JS (필요한 경우) -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </body>
 </html>
