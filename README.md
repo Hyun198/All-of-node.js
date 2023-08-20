@@ -1,4 +1,4 @@
-# Node.js CRUD Example with CGV Movie Schedule Crawling
+# Node.js Start Project CRUD , Crawling
 
 이 프로젝트는 Node.js를 사용하여 CRUD(Create, Read, Update, Delete) 기능을 구현하고, CGV 영화 시간표를 크롤링하며 시간을 계산하는 예제입니다.
 

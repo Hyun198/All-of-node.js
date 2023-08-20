@@ -53,6 +53,27 @@ const connectDB = async ()=>{
 
 connectDB();
 
+async function performStartCrawling() {
+    try {
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(process.env.cgv);
+        const times = await page.evaluate(() =>{
+            return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
+        });
+
+        await browser.close();
+
+        const data = { times };
+
+        await fs.writeFile(path.join('cgv', 'cached_data.txt'), times.join("\r\n"));
+        
+        console.log('Initial crawling completed');
+    } catch (err) {
+        console.error('error during initial crawling:', err);
+    }
+}
+performStartCrawling()
 
 app.get('/', async (req, res) => {
     
