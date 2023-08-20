@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 
-
+//세션 저장
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
@@ -51,9 +51,8 @@ const connectDB = async ()=>{
         console.log(err);
     }
 }
-
 connectDB();
-
+//서버 처음 실행시 크롤링
 async function performStartCrawling() {
     try {
         const browser = await puppeteer.launch({ headless: true });
@@ -76,6 +75,7 @@ async function performStartCrawling() {
 }
 performStartCrawling()
 
+//홈
 app.get('/', async (req, res) => {
     
     try {

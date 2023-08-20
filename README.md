@@ -8,7 +8,7 @@
 - Express.js
 - MongoDB (데이터베이스)
 - Puppeteer (웹 크롤링 라이브러리)
-- Bootstrap (웹 디자인 프레임워크)
+
 
 ## 설치 및 실행
 
