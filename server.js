@@ -74,7 +74,7 @@ async function performStartCrawling() {
         console.error('error during initial crawling:', err);
     }
 }
-
+performStartCrawling()
 
 app.get('/', async (req, res) => {
     
