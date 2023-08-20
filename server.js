@@ -54,6 +54,27 @@ const connectDB = async ()=>{
 
 connectDB();
 
+async function performStartCrawling() {
+    try {
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(process.env.cgv);
+        const times = await page.evaluate(() =>{
+            return Array.from(document.querySelectorAll(".movie_content._wrap_time_table  span.time_info a")).map(x => x.textContent)
+        });
+
+        await browser.close();
+
+        const data = { times };
+
+        await fs.writeFile(path.join('cgv', 'cached_data.txt'), times.join("\r\n"));
+        
+        console.log('Initial crawling completed');
+    } catch (err) {
+        console.error('error during initial crawling:', err);
+    }
+}
+
 
 app.get('/', async (req, res) => {
     
@@ -446,9 +467,8 @@ app.get('/myPost', async (req, res) => {
 
 
 
-
 app.get('/cgv', async (req, res) => {
-    const hourlyCrawling = schedule.scheduleJob('*/30 * * * *', ()=>{
+    const hourlyCrawling = schedule.scheduleJob('*/10 * * * *', ()=>{
         console.log('performing hourly crawling...');
         crawling.performCrawling();
     });
@@ -456,7 +476,7 @@ app.get('/cgv', async (req, res) => {
         const cachedFilePath = path.join('cgv', 'cached_Data.txt');
         //파일 캐싱 : 데이터 저장
         let cachedData = await fs.readFile(cachedFilePath, 'utf-8').catch(() => null);
-
+        //캐시 데이터가 없으면 초기 크롤링 수행
         if(!cachedData) {
             console.log('Cached data not found. performing inital crawling...');
             await crawling.performCrawling();
