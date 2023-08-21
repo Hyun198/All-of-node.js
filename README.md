@@ -8,7 +8,7 @@
 - Express.js
 - MongoDB (데이터베이스)
 - Puppeteer (웹 크롤링 라이브러리)
-
+- Sharp (이미지 크기조절)
 
 ## 설치 및 실행
 
