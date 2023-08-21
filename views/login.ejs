@@ -17,28 +17,37 @@
       displayError("<%= errorMessage %>");
     </script>
     <% } %>
+    <div class="container" id="container">
+      <div class="form-container sign-in-container">
+          <form action="/login" method="POST">
+            <h1>Login Account</h1>
+            <span>Login by username, password</span>
+              
+            <div class="infield">
+              <input type="text"id="username" placeholder="username" name="username" required/>
+              <label></label>
+            </div>
+            <div class="infield">
+              <input type="password"id="password" placeholder="password" name="password" required/>
+              <label></label>
+            </div>
+          
+            <button type="submit">Login</button>
+            <button onclick="location.href='/signup'">SignUp</button>
+          </form>
+      </div>
+      <div class="overlay-container" id="overlayCon">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+              <h1>Hello, Friend!</h1>
+              <p>Enter your personal details and start journey with us</p>
+              <button onclick="location.href='/'">Home</button>
+            </div>
+        </div>
+        
+      </div>
+    </div>
 
-    <h1>로그인</h1>
-
-    <form action="/login" method="POST">
-      <label for="username">사용자명:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        required
-      />
-      <label for="password">비밀번호:</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        required
-      />
-      <button type="submit">로그인</button>
-    </form>
-
-    <a href="/">홈으로</a>
 
   </body>
 </html>
