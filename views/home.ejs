@@ -39,41 +39,81 @@
     </ul>
 
     <% } else { %>
-
-    <header class="header">
-      <a href="#" class="logo">Logo</a>      
-      <nav class="navbar">
-        <a href="/">Home</a>
-        <a href="/signup">Sign up</a>
-        <a href="/profile">Profile</a>
-        <a href="/login">Login</a>
-        <a href="/cgv">CGV</a>
-        <a href="/users">가입된 유저들 목록</a>
-      </nav>
-    </header>
-    
-    <br><br>
-    <ul>
-      <% posts.forEach(post =>{ %>
-      <div class="card mb-3" style="max-width: 540px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="..." class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title"><a href="/posts/<%=post._id %>"> <%=post.title%> </a></h5>
-            <p class="card-text"><%=truncateText(post.desc, 100) %></p>
-            <p>작성자: <%=post.author %></p>
-            <div class="card-footer">
-              <p class="card-text"><small class="text-body-secondary"><%=post.updatedAt.toDateString()%></p>
+    <!--header-->
+    <header>
+        <nav class="navbar">
+          <div class="container">
+            <a href="/" class="navbar-brand">My Blog</a>
+            <div class="navbar-nav">
+              <a href="#">Home</a>
+              <a href="/signup">Sign up</a>
+              <a href="/profile">Profile</a>
+              <a href="/login">Login</a>
+              <a href="/cgv">CGV</a>
+              <a href="/users">가입된 유저들 목록</a>
             </div>
           </div>
+        </nav>
+        <div class="banner">
+          <div class="container">
+              <h1 class="banner-title">
+                <span>My.</span>blog
+              </h1>
+              <p> 전체 게시판</p>
+              <form>
+                <input type="text" class="search-input" placeholder="Find post...">
+                <button type="submit" class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+          </div>
         </div>
-      </div>
-    </div>
+    </header>
+    
+
+
+    <!--design-->
+    <section class="design" id="design">
+      <div class="container">
+        <div class="title">
+          <h2>Recent posts</h2>
+          <p>recent posts on blog</p>
+        </div>
+
+        <div class="design-content">
+          <% posts.forEach(post =>{ %>
+            <!--item-->
+            <div class="design-item">
+              <a href="/posts/<%=post._id %>"> <%=post.title%> </a>
+              <div class="design-img">
+                <% if (post.images && post.images.length >0) { %> 
+                  <% post.images.forEach(image=> { %>
+                    <img
+                      src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
+                      alt="PostImage"
+                    />
+                  <% }); %> 
+                  <% } %>
+                <span><i class="far fa-heart"></i></span>
+              </div>  
+              <p><%=truncateText(post.desc, 100) %></p>
+              <p>작성자: <%=post.author %></p>
+              <p><%=post.updatedAt.toDateString()%></p>
+              </div>
+          </div>
       <% }) %>
-    </ul>
+    </section>
+  <!--   <ul>
+      <% posts.forEach(post =>{ %>
+            <a href="/posts/<%=post._id %>"> <%=post.title%> </a>
+            <p><%=truncateText(post.desc, 100) %></p>
+            <p>작성자: <%=post.author %></p>
+            <div class="card-footer">
+              <p><%=post.updatedAt.toDateString()%></p>
+            </div>
+
+      <% }) %>
+    </ul> -->
     <% } %> <% function truncateText(text, maxLength) { if (text.length >
     maxLength) { return text.slice(0, maxLength) + '...'; } return text; } %>
 
