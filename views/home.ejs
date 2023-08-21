@@ -9,34 +9,67 @@
   <body>
     <% if (loggedInUser) { %>
       <header class="header">
-        <a href="#" class="logo">Logo</a>      
-        <nav class="navbar">
-          <a href="/">Home</a>
-          <a href="/profile">Profile</a>
-          <a href="/cgv">CGV</a>
-          <a href="/users">가입된 유저들 목록</a>
-          <a href="/createPost">글쓰기</a>
-          <form action="/logout" method="POST">
-            <button type="submit">로그아웃</button>
-          </form> 
+        <div class="container">
+          <a href="/" class="navbar-brand">My Blog</a>     
+          <div class="navbar-nav">
+            <a href="#">Home</a>
+            <a href="/profile/<%= loggedInUser.id %>">Profile</a>
+            <a href="/cgv">CGV</a>
+            <a href="/createPost">글쓰기</a>
+            <form action="/logout" method="POST">
+              <button type="submit">Logout</button>
+            </form> 
+          </div>
+        </div>
         </nav>
+        <div class="banner">
+          <div class="container">
+              <h1 class="banner-title">
+                <span>#My.</span>blog
+              </h1>
+              <p> 전체 게시판</p>
+              <h2>안녕하세요</h2>
+              <h2><%= loggedInUser.username %>님!</h2>
+              <form>
+                <input type="text" class="search-input" placeholder="Find post...">
+                <button type="submit" class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
+          </div>
+        </div>
       </header>
 
-      <h1>Home</h1>
-      <h2>안녕하세요, <%= loggedInUser.username %>님!</h2>
-    
-    <ul>
-      <% users.forEach(user =>{ %>
-      <li>
-        <p>사용자명: <%= user.username %></p>
-        <p>생년월일: <%= user.birthdate.toDateString() %></p>
-        <a href="/profile/<%=user._id %>">
-          <img src="/profile-image/<%=user.id%>" alt="프로필사진" />
-        </a>
-      </li>
-
-      <% }) %>
-    </ul>
+      <section class="design" id="design">
+        <div class="container">
+          <div class="title">
+            <h2>Recent posts</h2>
+            <p>recent posts on blog</p>
+          </div>
+  
+          <div class="design-content">
+            <% posts.forEach(post =>{ %>
+              <!--item-->
+              <div class="design-item">
+                  <div class="design-img">
+                    <% if (post.images && post.images.length >0) { %> 
+                      <% post.images.forEach(image=> { %>
+                        <img
+                        src="data:<%= image.contentType %>;base64, <%= resizeAndEncodeImage(image.data) %>"
+                        alt="PostImage"
+                        />
+                      <% }); %> 
+                      <% } %>
+                    <span><i class="far fa-heart"></i></span>
+                  </div>
+                <a href="/posts/<%=post._id %>"><%=post.title%></a>  
+                <p><%=truncateText(post.desc, 100) %></p>
+                <p>작성자: <%=post.author %></p>
+                <p><%=post.updatedAt.toDateString()%></p>
+                </div>
+            </div>
+        <% }) %>
+      </section>
 
     <% } else { %>
     <!--header-->
@@ -57,7 +90,7 @@
         <div class="banner">
           <div class="container">
               <h1 class="banner-title">
-                <span>My.</span>blog
+                <span>#My.</span>blog
               </h1>
               <p> 전체 게시판</p>
               <form>

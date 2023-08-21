@@ -87,6 +87,22 @@ header{
     width:100%;
 }
 
+.navbar-nav button {
+    border-radius: 10px;
+    border: 1px solid var(--dark);
+    background: var(--dark);
+    color:#fff;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    
+}
+.navbar-nav button:hover{
+    background:#fff;
+    color:var(--exDark);
+}
+
 .banner{
     flex: 1;
     display: flex;
@@ -98,10 +114,11 @@ header{
     font-size: 3rem;    
     font-family: var(--Playfair);
     line-height: 1.2;
+    color:white;
 }
 .banner-title span{
     font-family: var(--Playfair);
-    color:var(--exDark);
+    color:white;
 }
 
 .banner p{
@@ -111,7 +128,15 @@ header{
     font-family: var(--Roboto);
     font-weight: 300;
     word-spacing: 2px;
+    color:white;
 }
+.banner h2{
+    font-family:var(var(--Roboto));
+    color: white;
+    font-weight: 300;
+    word-spacing: 2px;
+}
+
 .banner form{
     background: #fff;
     border-radius: 2rem;
@@ -172,6 +197,8 @@ header{
 .design-img{
     position: relative;
     overflow: hidden;
+    width: 500px;
+    height: 500px;
 }
 .design-img::after{
     position: absolute;
@@ -184,6 +211,8 @@ header{
 }
 .design-img img{
     transition: all 0.5s ease;
+    width: 500px;
+    height: 500px;
 }
 .design-item:hover img{
     transform: scale(1.2);

@@ -11,6 +11,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const schedule = require('node-schedule');
+const sharp = require('sharp');
+
 
 const getTime = require('./index');
 const crawling = require('./crawling');
@@ -21,7 +23,12 @@ const Post = require('./model/Post');
 const { cache } = require('ejs');
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({ 
+    storage ,
+    limits:{
+        fileSize: 1000000, //1mb 이하 파일만 허용
+    },
+});
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -75,6 +82,8 @@ async function performStartCrawling() {
 }
 performStartCrawling()
 
+
+
 //홈
 app.get('/', async (req, res) => {
     
@@ -108,22 +117,29 @@ app.get('/signup', (req, res) => {
 app.post('/signup',  upload.single("profileImage"), async (req, res) => {
     const { username, password, birthdate } = req.body;
     try {
+
         const existingUser = await User.findOne( {username});
         if (existingUser) {
             return res.render('signup', {errorMessage: "이미 사용중인 아이디입니다."})
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         
+        let resizedProfileImageBuffer = req.file.buffer;
+
+        resizedProfileImageBuffer = await sharp(req.file.buffer)
+        .resize({width: 300, height: 300})
+        .toBuffer();
 
         const newUser = new User({
             username,
             password: hashedPassword,
             birthdate: new Date(birthdate),
             profileImage: {
-                data: req.file.buffer,
+                data: resizedProfileImageBuffer,
                 contentType: req.file.mimetype,
             },
         });
+
         await newUser.save();
         
         
@@ -168,15 +184,15 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
     const loggedInUser = req.session.user;
-    
+
     if (!req.session.user) {
         return res.redirect('/login');
     }
    
 
-    res.render('profile',{ user: loggedInUser})
+    res.render('profile',{ user: loggedInUser});
 })
 
 app.post('/logout', (req, res) => {
@@ -217,9 +233,6 @@ app.get('/profile/:userId', async (req, res) => {
             return res.status(404).send('유저를 찾을 수 없습니다.');
         }
         const loggedInUser = req.session.user;
-       /*  console.log(user)
-        console.log(loggedInUser);
- */
         // 로그인된 유저와 프로필 페이지의 유저를 비교하여 같으면 true, 다르면 false
         const isSameUser = loggedInUser && user._id.toString() === loggedInUser.id.toString();
         
