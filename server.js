@@ -127,7 +127,7 @@ app.post('/signup',  upload.single("profileImage"), async (req, res) => {
         let resizedProfileImageBuffer = req.file.buffer;
 
         resizedProfileImageBuffer = await sharp(req.file.buffer)
-        .resize({width: 300, height: 300})
+        .resize({width: 500, height: 500})
         .toBuffer();
 
         const newUser = new User({

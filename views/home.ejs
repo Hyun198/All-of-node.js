@@ -27,15 +27,9 @@
               <h1 class="banner-title">
                 <span>#My.</span>blog
               </h1>
-              <p> 전체 게시판</p>
               <h2>안녕하세요</h2>
               <h2><%= loggedInUser.username %>님!</h2>
-              <form>
-                <input type="text" class="search-input" placeholder="Find post...">
-                <button type="submit" class="search-btn">
-                  <i class="fas fa-search"></i>
-                </button>
-              </form>
+
           </div>
         </div>
       </header>
@@ -54,21 +48,21 @@
                   <div class="design-img">
                     <% if (post.images && post.images.length >0) { %> 
                       <% post.images.forEach(image=> { %>
-                        <img
-                        src="data:<%= image.contentType %>;base64, <%= resizeAndEncodeImage(image.data) %>"
-                        alt="PostImage"
-                        />
+                       <img src="data:<%= image.contentType %>;base64,<%= image.data.toString('base64') %>"  alt="PostImage"/>
                       <% }); %> 
-                      <% } %>
-                    <span><i class="far fa-heart"></i></span>
+                    <% } %>
                   </div>
-                <a href="/posts/<%=post._id %>"><%=post.title%></a>  
-                <p><%=truncateText(post.desc, 100) %></p>
-                <p>작성자: <%=post.author %></p>
-                <p><%=post.updatedAt.toDateString()%></p>
-                </div>
+                  <div class="design-title">
+                    <a href="/posts/<%=post._id %>"><%=post.title%></a>
+                    <p><%=truncateText(post.desc, 100) %></p>
+                    <p>작성자: <%=post.author %></p>
+                    <p><%=post.updatedAt.toDateString()%></p>
+                  </div>
+                 
+              </div>
+            <% }) %>
             </div>
-        <% }) %>
+        
       </section>
 
     <% } else { %>
@@ -92,17 +86,11 @@
               <h1 class="banner-title">
                 <span>#My.</span>blog
               </h1>
-              <p> 전체 게시판</p>
-              <form>
-                <input type="text" class="search-input" placeholder="Find post...">
-                <button type="submit" class="search-btn">
-                  <i class="fas fa-search"></i>
-                </button>
-              </form>
+
           </div>
         </div>
     </header>
-    
+    <!--end header-->
 
 
     <!--design-->
@@ -135,20 +123,19 @@
               </div>
           </div>
       <% }) %>
+    <% } %>
     </section>
-  <!--   <ul>
-      <% posts.forEach(post =>{ %>
-            <a href="/posts/<%=post._id %>"> <%=post.title%> </a>
-            <p><%=truncateText(post.desc, 100) %></p>
-            <p>작성자: <%=post.author %></p>
-            <div class="card-footer">
-              <p><%=post.updatedAt.toDateString()%></p>
-            </div>
+<!--end design-->
 
-      <% }) %>
-    </ul> -->
-    <% } %> <% function truncateText(text, maxLength) { if (text.length >
+
+
+
+
+
+
+
+<% function truncateText(text, maxLength) { if (text.length >
     maxLength) { return text.slice(0, maxLength) + '...'; } return text; } %>
-
+    
   </body>
 </html>

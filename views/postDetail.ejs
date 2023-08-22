@@ -3,21 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/home_style.css">
     <title><%= post.title %></title>
   </head>
   <body>
-    <h1><%= post.title %></h1>
-    <p>본문: <%= post.desc %></p>
-    <p>작성자: <%= post.author %></p>
-    <p>작성날짜: <%= post.updatedAt.toDateString() %></p>
-    <% if (post.images && post.images.length >0) { %> 
-    <% post.images.forEach(image=> { %>
-      <img
-        src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
-        alt="PostImage"
-      />
-    <% }); %> 
-    <% } %>
+    <section>
+      <section class = "blog" id = "blog">
+      <div class = "container">
+        <div class = "blog-content">
+          <div class="title">
+            <h2><%= post.title %></h2>
+          </div>
+          <!-- item -->
+          <div class = "blog-item">
+            <div class = "blog-img">
+              <% if (post.images && post.images.length >0) { %> 
+                <% post.images.forEach(image=> { %>
+                  <img
+                    src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
+                    alt="PostImage"
+                  />
+                <% }); %> 
+              <% } %>
+              <div class="blog-text">
+                <div class = "title">
+                  <p><%= post.desc %></p>
+                  <p>작성자: <%= post.author %></p>
+                  <span><%= post.updatedAt.toDateString() %></span>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+    </section>
+
 
     <!-- 추가적인 정보들을 표시할 수 있음 -->
     <% if (loggedInUser && post.author === loggedInUser.username) { %>
