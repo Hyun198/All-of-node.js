@@ -4,136 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="/home_style.css">
+    <link rel="stylesheet" href="/home_style.css" />
   </head>
   <body>
     <% if (loggedInUser) { %>
-      <header class="header">
-        <div class="container">
-          <a href="/" class="navbar-brand">My Blog</a>     
-            <div class="navbar-nav">
-              <a href="#">Home</a>
-              <a href="/profile/<%= loggedInUser.id %>">Profile</a>
-              <a href="/cgv">CGV</a>
-              <a href="/createPost">글쓰기</a>
-              <form action="/logout" method="POST">
-                <button type="submit">Logout</button>
-              </form> 
-            </div>
+    <header class="header">
+      <div class="container">
+        <a href="/" class="navbar-brand">My Blog</a>
+        <div class="navbar-nav">
+          <a href="#">Home</a>
+          <a href="/profile/<%= loggedInUser.id %>">Profile</a>
+          <a href="/cgv">CGV</a>
+          <a href="/createPost">글쓰기</a>
+          <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+          </form>
         </div>
-        <div class="banner">
-          <div class="container">
-              <h1 class="banner-title">
-                <span>#My.</span>blog
-              </h1>
-              <h2>안녕하세요</h2>
-              <h2><%= loggedInUser.username %>님!</h2>
+      </div>
+      <div class="banner">
+        <div class="container">
+          <h1 class="banner-title"><span>#My.</span>blog</h1>
+          <h2>안녕하세요</h2>
+          <h2><%= loggedInUser.username %>님!</h2>
+        </div>
+      </div>
+    </header>
 
+    <section id="blog">
+      <div class="blog-heading">
+        <h2>Recent Posts</h2>
+      </div>
+
+      <div class="blog-container">
+        <% posts.forEach(post =>{ %>
+        <div class="blog-box">
+          <!--img-->
+          <div class="blog-img">
+            <% if (post.images && post.images.length >0) { %>
+            <img
+              src="data:<%=post.images[0].contentType%>;base64, <%= post.images[0].data.toString('base64') %>"
+              alt="PostImage"
+            />
+            <% } %>
+          </div>
+          <div class="blog-text">
+            <span><%=post.updatedAt.toDateString()%> / <%=post.title%> </span>
+            <p><%=truncateText(post.desc, 100) %></p>
+            <a href="/posts/<%=post._id %>">Read more</a>
           </div>
         </div>
-      </header>
-
-      <section id="blog">
-        <div class="blog-heading">
-          <h2>Recent Posts</h2>
-        </div>
-
-        <div class="blog-container">
-          <% posts.forEach(post =>{ %>
-            <div class="blog-box">
-              
-              <!--img-->
-              <div class="blog-img">
-
-                  <% if (post.images && post.images.length >0) { %> 
-                    <% post.images.forEach(image=> { %>
-                      <img
-                        src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
-                        alt="PostImage"
-                      />
-                    <% }); %>
-                  <% } %>
-                
-              </div>
-              <div class="blog-text">
-                <span><%=post.updatedAt.toDateString()%> / <%=post.title%> </span>
-                <p> <%=truncateText(post.desc, 100) %></p>
-                <a href="/posts/<%=post._id %>">Read more</a>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-
+        <% }) %>
+      </div>
     </section>
-
 
     <% } else { %>
-      <!--header-->
-      <header class="header">
-            <div class="container">
-              <a href="/" class="navbar-brand">My Blog</a>
-              <div class="navbar-nav">
-                <a href="#">Home</a>
-                <a href="/signup">Sign up</a>
-                <a href="/profile">Profile</a>
-                <a href="/login">Login</a>
-                <a href="/cgv">CGV</a>
-                <a href="/users">Users</a>
-              </div>
-            </div>
-          <div class="banner">
-            <div class="container">
-                <h1 class="banner-title">
-                  <span>#My.</span>blog
-                </h1>
+    <!--header-->
+    <header class="header">
+      <div class="container">
+        <a href="/" class="navbar-brand">My Blog</a>
+        <div class="navbar-nav">
+          <a href="#">Home</a>
+          <a href="/signup">Sign up</a>
+          <a href="/profile">Profile</a>
+          <a href="/login">Login</a>
+          <a href="/cgv">CGV</a>
+          <a href="/users">Users</a>
+        </div>
+      </div>
+      <div class="banner">
+        <div class="container">
+          <h1 class="banner-title"><span>#My.</span>blog</h1>
+        </div>
+      </div>
+    </header>
 
-            </div>
+    <section id="blog">
+      <div class="blog-heading">
+        <h2>Recent Posts</h2>
+      </div>
+
+      <div class="blog-container">
+        <% posts.forEach(post =>{ %>
+        <div class="blog-box">
+          <!--img-->
+          <div class="blog-img">
+            <% if (post.images && post.images.length >0) { %>
+            <img
+              src="data:<%=post.images[0].contentType%>;base64, <%= post.images[0].data.toString('base64') %>"
+              alt="PostImage"
+            />
+            <% } %>
           </div>
-      </header>
-
-      
-      <section id="blog">
-        <div class="blog-heading">
-          <h2>Recent Posts</h2>
+          <div class="blog-text">
+            <span><%=post.updatedAt.toDateString()%> / <%=post.title%> </span>
+            <p><%=truncateText(post.desc, 100) %></p>
+            <a href="/posts/<%=post._id %>">Read more</a>
+          </div>
         </div>
+        <% }) %>
+      </div>
 
-        <div class="blog-container">
-          <% posts.forEach(post =>{ %>
-            <div class="blog-box">
-              
-              <!--img-->
-              <div class="blog-img">
-
-                  <% if (post.images && post.images.length >0) { %> 
-                    <% post.images.forEach(image=> { %>
-                      <img
-                        src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
-                        alt="PostImage"
-                      />
-                    <% }); %>
-                  <% } %>
-                
-              </div>
-              <div class="blog-text">
-                <span><%=post.updatedAt.toDateString()%> / <%=post.title%> </span>
-                <p> <%=truncateText(post.desc, 100) %></p>
-                <a href="/posts/<%=post._id %>">Read more</a>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-
-    <% } %>
+      <% } %>
     </section>
 
-
-
-
-
-
-
-<% function truncateText(text, maxLength) { if (text.length >
-    maxLength) { return text.slice(0, maxLength) + '...'; } return text; } %>
-    
+    <% function truncateText(text, maxLength) { if (text.length > maxLength) {
+    return text.slice(0, maxLength) + '...'; } return text; } %>
   </body>
 </html>

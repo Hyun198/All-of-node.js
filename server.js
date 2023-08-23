@@ -310,7 +310,7 @@ app.get('/createPost', async (req, res) => {
     res.render('createPost');
 });
 
-app.post('/create-post', upload.array('images', 3), async (req, res) => {
+app.post('/create-post', upload.array('images', 5), async (req, res) => {
     try {
         const { title, desc } = req.body;
         const images = req.files.map(file => ({
