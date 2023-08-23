@@ -1,4 +1,4 @@
-# Node.js Start Project CRUD , Crawling
+# Node.js Start Project CRUD , Crawling , OpenWeather API
 
 이 프로젝트는 Node.js를 사용하여 CRUD(Create, Read, Update, Delete) 기능을 구현하고, CGV 영화 시간표를 크롤링하며 시간을 계산하는 예제입니다.
 
@@ -9,6 +9,7 @@
 - MongoDB (데이터베이스)
 - Puppeteer (웹 크롤링 라이브러리)
 - Sharp (이미지 크기조절)
+- OpenWeather API (날씨 정보 불러오기)
 
 ## 설치 및 실행
 
