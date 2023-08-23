@@ -12,5 +12,5 @@ async function getWeather(city, apiKey) {
 
     }
 }
-//this is update
+
 module.exports = { getWeather };
