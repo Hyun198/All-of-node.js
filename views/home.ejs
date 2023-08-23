@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    />
     <link rel="stylesheet" href="/home_style.css" />
   </head>
   <body>
@@ -73,6 +77,23 @@
       </div>
       <div class="banner">
         <div class="container">
+          <div class="weather-info">
+            <% if(error) { %>
+            <p class="error"><%=error %></p>
+            <% } else if (weather) { %>
+            <div class="weather-card">
+              <p>
+                <i class="fas fa-thermometer-half"></i>
+                <%=weather.main.temp %>&deg;C
+              </p>
+              <p>
+                <!-- 날씨 상황에 맞는 아이콘을 불러오도록 하자 -->
+                <%=weather.weather[0].main %>
+              </p>
+              <p><%=weather.name %>,<%=weather.sys.country %></p>
+            </div>
+            <% } %>
+          </div>
           <h1 class="banner-title"><span>#My.</span>blog</h1>
         </div>
       </div>

@@ -14,9 +14,9 @@ const schedule = require('node-schedule');
 const sharp = require('sharp');
 
 
-const getTime = require('./index');
+const getTime = require('./getTime');
 const crawling = require('./crawling');
-
+const weathering = require('./weather');
 
 const User = require('./model/User');
 const Post = require('./model/Post');
@@ -91,9 +91,16 @@ app.get('/', async (req, res) => {
         const users = await User.find();
         const loggedInUser = await req.session.user;
         const posts = await Post.find();
-        res.render('home', { users,posts,loggedInUser });
-    } catch (err) {
-        console.error('유저 정보 가져오기 오류:', err);
+        //서울의 날씨 정보 불러오기
+        const city = 'seoul';
+        const apikey = process.env.apikey;
+        const weather = await weathering.getWeather(city, apikey);
+        let error = null;
+
+        res.render('home', { users, posts, loggedInUser, weather, error });
+        
+    } catch (error) {
+        console.error('유저 정보 가져오기 오류:', error);
         res.status(500).send('유저 정보를 가져오는데 오류가 생겼습니다.');    
     }
 });

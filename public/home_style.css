@@ -36,6 +36,7 @@ img{
     max-width: 1320px;
     margin: 0 auto;
     padding: 0 1.2rem;
+
 }
 
 header{
@@ -153,6 +154,18 @@ header{
     display: flex;
     justify-content: space-between;
 }
+
+.weather-info{
+    margin-bottom: 2rem;
+}
+.weather-card p{
+    font-family: var(--Playfair);
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+
+}
+
 
 
 /*blog section*/
