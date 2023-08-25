@@ -122,7 +122,7 @@ app.get('/signup', (req, res) => {
 })
 
 app.post('/signup',  upload.single("profileImage"), async (req, res) => {
-    const { username, password, birthdate } = req.body;
+    const { username, password, email } = req.body;
     try {
 
         const existingUser = await User.findOne( {username});
@@ -140,7 +140,7 @@ app.post('/signup',  upload.single("profileImage"), async (req, res) => {
         const newUser = new User({
             username,
             password: hashedPassword,
-            birthdate: new Date(birthdate),
+            email,
             profileImage: {
                 data: resizedProfileImageBuffer,
                 contentType: req.file.mimetype,
@@ -178,7 +178,6 @@ app.post('/login', async (req, res) => {
         const loggedInUser = {
             id: user._id,
             username: user.username,
-            birthdate: new Date(user.birthdate),
         }
         
         req.session.user = loggedInUser;
