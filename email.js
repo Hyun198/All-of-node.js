@@ -15,7 +15,7 @@ module.exports = (recipientEmail) => {
     });
     const mailOptions = {
         from: user,
-        to: 'hwn123h@gmail.com',
+        to: recipientEmail,
         subject: 'NodeMailer Test',
         html: `<h1>테스트 이메일</h1><p>성공</p>`
     };

@@ -119,33 +119,7 @@ app.get('/users', async (req, res) => {
 
 
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.naver.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'myblogadmin@naver.com',
-        pass: '1234'
-    }
-});
 
-
-
-const sendsignupEmail = (email) => {
-    const mailOptions = {
-        from: 'myblogadmin@naver.com',
-        to: email,
-        subject: '회원가입이 완료되었습니다.',
-        text: '회원가입이 완료되었습니다. 홈페이지에서 로그인해주세요.'
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('이메일 전송 오류: ', error);
-        } else {
-            console.log('이메일 전송 완료:', info.response);
-        }
-    });
-};
 
 app.get('/signup', (req, res) => {
     res.render('signup');
@@ -180,7 +154,7 @@ app.post('/signup',  upload.single("profileImage"), async (req, res) => {
         await newUser.save();
         
         //회원가입 완료 이메일 보내기
-        sendsignupEmail(email);
+        await sendEmail(newUser.email);
         
         return res.render('signup', {successMessage: '회원가입이 완료되었습니다!'})
     } catch (err) {
