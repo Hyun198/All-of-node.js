@@ -10,6 +10,7 @@
 - Puppeteer (웹 크롤링 라이브러리)
 - Sharp (이미지 크기조절)
 - OpenWeather API (날씨 정보 불러오기)
+- NodeEmailer (회원가입 시 가입한 이메일로 가입성공 이메일 보내기)
 
 ## 설치 및 실행
 
@@ -30,7 +31,7 @@
 
 3. env 파일을 설정합니다:
 
-   DATABASEURL, PORT, SECRET_KEY, CGVURL 을 설정
+   DATABASEURL, PORT, SECRET_KEY, CGVURL, Node-emailer(Gmail 권장) 을 설정
 
 4. 서버를 실행합니다:
 
