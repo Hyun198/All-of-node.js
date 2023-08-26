@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const schedule = require('node-schedule');
 const sharp = require('sharp');
-const nodemailer = require('nodemailer');
+const sendEmail = require('./email');
 
 const getTime = require('./getTime');
 const crawling = require('./crawling');
