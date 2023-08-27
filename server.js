@@ -486,13 +486,37 @@ app.get('/myPost', async (req, res) => {
         console.error('사용자 게시글 목록 오류:', err);
         return res.status(500).send('사용자 게시글 목록 로딩 중 오류가 발생했습니다.');
     }
-})
+});
 
 
+const MorningCrawling = schedule.scheduleJob('0 7 * * *', async () => {
+    try {
+        
+        const morningFilePath = path.join('cgv', 'morning_data.txt');
+        let morningData = await fs.readFile(morningFilePath, 'utf-8').catch(() => null);
+        
+
+        if(!morningData) {
+            console.log('Morning_Cached data not found. performing inital crawling...');
+            await crawling.morningCrawling();
+            morningData = await fs.readFile(morningFilePath, 'utf-8');
+        }
+
+        const times = morningData.split("\n").filter(line => line.trim() !== '');
+
+        const timesFilePath = path.join('cgv', 'morning_data.txt');
+
+        const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
+        console.log('Crawling at 7am completed');
+
+    } catch (error) {
+        console.error('Error: ', error);
+    }
+});
 
 
 app.get('/cgv', async (req, res) => {
-    const hourlyCrawling = schedule.scheduleJob('*/10 * * * *', ()=>{
+    const hourlyCrawling = schedule.scheduleJob('*/5 * * * *', () => {
         console.log('performing hourly crawling...');
         crawling.performCrawling();
     });
@@ -509,8 +533,8 @@ app.get('/cgv', async (req, res) => {
             //파일캐싱 : 데이터 사용
             //const parsedData = JSON.parse(cachedData);
 
-            const parsedData = cachedData.split("\n").filter(line => line.trim() !== '');
-            const {times} = parsedData;
+            const times = cachedData.split("\n").filter(line => line.trim() !== '');
+            
             
             const timesFilePath = path.join('cgv', 'cached_Data.txt');
             const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
