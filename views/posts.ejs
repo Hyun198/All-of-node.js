@@ -16,16 +16,33 @@
         <p>본문: <%=post.desc %></p>
         <p>작성자: <%=post.author %></p>
         <p>작성날짜: <%=post.updatedAt.toDateString()%></p>
-        <button class="like-button">좋아요</button>
+        <button class="like-button" data-post-id="<%=post._id %>">
+          좋아요
+        </button>
       </li>
-      <% if (post.author === loggedInUser.username) { %>
-      <form action="/delete-post/<%=post._id %>?_method=DELETE" method="POST">
-        <button type="submit">삭제</button>
-      </form>
-      <a href="/edit-post/<%=post._id %>">수정</a>
-      <% } %> <% }) %>
+      <% }) %>
     </ul>
-    <a href="/createPost">글쓰기</a>
+
     <a href="/">홈으로</a>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const likeButton = document.querySelector(".like-button");
+
+        likeButton.addEventListener("click", async () => {
+          const postId = likeButton.getAttribute("data-post-id");
+          try {
+            const response = await fetch(`like/${postId}`, { method: "POST" });
+            if (response.ok) {
+              const data = await response.json();
+              const updatedLikes = data.likes;
+              likeButton.textContent = `좋아요 ${updatedLikes}개`;
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      });
+    </script>
   </body>
 </html>

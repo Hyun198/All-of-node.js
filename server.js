@@ -470,6 +470,22 @@ app.get('/posts/:postId', async (req, res) => {
     }
 });
 
+app.post('/like/:postId', async (req, res) => {
+    const postId = req.params.postId;
+    try {
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        }
+        post.likes += 1;
+        await post.save();
+
+        res.status(200).send({ likes: post.likes });
+    } catch(error) {
+        console.error(error);
+        res.status(500).send('좋아요 처리 중 오류가 발생했습니다.')
+    }
+})
 
 
 
@@ -489,6 +505,26 @@ app.get('/myPost', async (req, res) => {
         return res.status(500).send('사용자 게시글 목록 로딩 중 오류가 발생했습니다.');
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const MorningCrawling = schedule.scheduleJob('0 7 * * *', async () => {
