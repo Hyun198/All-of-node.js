@@ -471,6 +471,8 @@ app.get('/posts/:postId', async (req, res) => {
 });
 
 
+
+
 app.get('/myPost', async (req, res) => {
     try {
         if (!req.session.user) {
