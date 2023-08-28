@@ -8,24 +8,25 @@ body {
 }
 
 .card {
-    background-color: #fff;
-    border-radius: 5px;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     width: 1200px;
-    display: flex;
+    box-sizing: border-box;
 }
+.card-content {
+    display: flex;
+    flex-direction: row;
 
+}
 .left-section {
     flex: 1;
-    padding: 20px;
 }
-
 .right-section {
     flex: 1;
-    padding: 20px;
-
+    padding-left: 20px;
+    /* 간격 조절 */
+    max-width: 70%;
+    /* 최대 너비 설정 */
 }
 
 label {
@@ -54,25 +55,31 @@ input[type="file"] {
   }
 
 .image-container {
-    margin-bottom: 20px;
-    text-align: center;
+    position: relative;
+    margin: 10px;
 }
+
 .image-wrapper {
     position: relative;
     display: inline-block;
 }
 
 .checkbox-label {
-    margin-left: 10px;
+    margin-left: 5px;
 }
+
+
 .delete-button {
-      position: absolute;
-      bottom: -10px;
-      /* 이미지 아래로 조정 */
-      left: 50%;
-      /* 가운데로 조정 */
-      transform: translateX(-50%);
-  }
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
 button {
     background-color: #007bff;
     color: white;

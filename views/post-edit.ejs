@@ -4,40 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/postEdit.css" />
-    <title>Document</title>
+    <title>게시글 수정</title>
   </head>
   <body>
     <div class="card">
-      <h1 class="card-title">게시글 수정</h1>
-      <div class="left-section">
-        <label for="images">이미지 추가</label>
-        <input
-          type="file"
-          id="images"
-          name="images"
-          accept="image/*"
-          multiple
-        />
+      <div class="card-content">
+        <div class="left-section">
+          <label for="images">이미지 추가</label>
+          <input
+            type="file"
+            id="images"
+            name="images"
+            accept="image/*"
+            multiple
+            style="width: 150px;"
+          />
 
-        <% post.images.forEach(image => { %>
-        <div class="image-container">
-          <div class="image-wrapper">
-            <img
-              src="data:<%= image.contentType %>;base64, <%= image.data.toString('base64') %>"
-              alt="Post Image"
-            />
-            <div class="delete-button">
-              <input
-                type="checkbox"
-                name="deleteImages"
-                value="<%= image._id %>"
+
+          <% post.images.forEach(image => { %>
+            <div class="image-container">
+              <img
+                src="data:<%= image.contentType %>;base64, <%= image.data.toString('base64') %>"
+                alt="Post Image"
               />
-              <label class="checkbox-label">이미지 삭제</label>
+              <button class="delete-button">
+                <input
+                  type="checkbox"
+                  name="deleteImages"
+                  value="<%= image._id %>"
+                />
+                <label class="checkbox-label">이미지 삭제</label>
+              </button>
             </div>
-          </div>
+          <% }) %>
         </div>
-        <% }) %>
-      </div>
+
+
       <div class="right-section">
         <form
           action="/update-post/<%= post._id %>?_method=PUT"
