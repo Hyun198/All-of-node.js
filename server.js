@@ -13,6 +13,7 @@ const methodOverride = require('method-override');
 const schedule = require('node-schedule');
 const sharp = require('sharp');
 const sendEmail = require('./email');
+const WebSocket = require('ws');
 
 const getTime = require('./getTime');
 const crawling = require('./crawling');
@@ -31,6 +32,10 @@ const upload = multer({
 });
 
 const app = express();
+
+/* const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+ */
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -450,7 +455,7 @@ app.get('/posts', async (req, res) => {
     }
     
 });
-
+//게시글당 페이지
 app.get('/posts/:postId', async (req, res) => {
     try {
         const postId = req.params.postId;
@@ -469,6 +474,9 @@ app.get('/posts/:postId', async (req, res) => {
         return res.status(500).send('게시글 조회 중 오류가 발생했습니다.');
     }
 });
+
+
+
 
 app.post('/like/:postId', async (req, res) => {
     const postId = req.params.postId;

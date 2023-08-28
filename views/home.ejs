@@ -56,7 +56,9 @@
           <div class="blog-text">
             <span><%=post.updatedAt.toDateString()%> / <%=post.title%> </span>
             <p><%=truncateText(post.desc, 100) %></p>
+
             <a href="/posts/<%=post._id %>">Read more</a>
+            <p><%=post.likes %></p>
           </div>
         </div>
         <% }) %>

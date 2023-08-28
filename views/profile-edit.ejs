@@ -3,33 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Edit profile</title>
   </head>
   <body>
-    <h1>프로필 수정</h1>
-    <form
-      action="/update-profile/<%=user._id %>?_method=PUT"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-      <label for="username">사용자 이름:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        value="<%= user.username %>"
-      />
-      <label for="birthdate">생년월일:</label>
-      <input
-        type="date"
-        id="birthdate"
-        name="birthdate"
-        value="<%= user.birthdate.toDateString() %>"
-      />
-      <label for="profileImage">프로필 사진:</label>
-      <input type="file" id="profileImage" name="profileImage" />
-      <button type="submit">프로필 수정 완료</button>
-    </form>
+    <div class="card">
+      <h1>프로필 수정</h1>
+      <form
+        action="/update-profile/<%=user._id %>?_method=PUT"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <label for="username">사용자 이름:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="<%= user.username %>"
+        />
+        <label for="email">이메일:</label>
+        <input
+          type="date"
+          id="birthdate"
+          name="birthdate"
+          value="<%= user.birthdate.toDateString() %>"
+        />
+        <label for="profileImage">프로필 사진:</label>
+        <input type="file" id="profileImage" name="profileImage" />
+        <button type="submit">프로필 수정 완료</button>
+      </form>
+    </div>
 
     현재 프로필 사진
     <img

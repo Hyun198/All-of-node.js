@@ -15,10 +15,11 @@
         </a>
         <p>본문: <%=post.desc %></p>
         <p>작성자: <%=post.author %></p>
-        <p>작성날짜: <%=post.updatedAt.toDateString()%></p>
+        <p>작성날짜: <%=post.createdAt.toDateString()%></p>
         <button class="like-button" data-post-id="<%=post._id %>">
-          좋아요
+          좋아요버튼
         </button>
+        <span class="like-count">좋아요<%=post.likes%>개 </span>
       </li>
       <% }) %>
     </ul>
@@ -27,20 +28,26 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const likeButton = document.querySelector(".like-button");
+        const likeButtons = document.querySelectorAll(".like-button");
 
-        likeButton.addEventListener("click", async () => {
-          const postId = likeButton.getAttribute("data-post-id");
-          try {
-            const response = await fetch(`like/${postId}`, { method: "POST" });
-            if (response.ok) {
-              const data = await response.json();
-              const updatedLikes = data.likes;
-              likeButton.textContent = `좋아요 ${updatedLikes}개`;
+        likeButtons.forEach((likeButton) => {
+          likeButton.addEventListener("click", async () => {
+            const postId = likeButton.getAttribute("data-post-id");
+            try {
+              const response = await fetch(`like/${postId}`, {
+                method: "POST",
+              });
+              if (response.ok) {
+                const data = await response.json();
+                const updatedLikes = data.likes;
+                likeCountElements[
+                  index
+                ].textContent = `좋아요 ${updatedLikes}개`;
+              }
+            } catch (error) {
+              console.error(error);
             }
-          } catch (error) {
-            console.error(error);
-          }
+          });
         });
       });
     </script>

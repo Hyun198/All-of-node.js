@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 1200px;
+    display: flex;
+}
+
+.left-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.right-section {
+    flex: 1;
+    padding: 20px;
+
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.desc{
+    height:500px;
+    resize: none;
+}
+
+.post-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+.image-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.checkbox-label {
+    margin-left: 10px;
+}
+.delete-button {
+      position: absolute;
+      bottom: -10px;
+      /* 이미지 아래로 조정 */
+      left: 50%;
+      /* 가운데로 조정 */
+      transform: translateX(-50%);
+  }
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin-top: 15px;
+    align-self: flex-end;
+}

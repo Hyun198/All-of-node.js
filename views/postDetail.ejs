@@ -3,49 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/home_style.css">
+    <link rel="stylesheet" href="/postDetail.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    />
     <title><%= post.title %></title>
   </head>
   <body>
-    <section>
-      <section class = "blog" id = "blog">
-      <div class = "container">
-        <div class = "blog-content">
-          <div class="title">
-            <h2><%= post.title %></h2>
-          </div>
-          <!-- item -->
-          <div class = "blog-item">
-            <div class = "blog-img">
-              <% if (post.images && post.images.length >0) { %> 
-                <% post.images.forEach(image=> { %>
-                  <img
-                    src="data:<%=image.contentType%>;base64, <%= image.data.toString('base64') %>"
-                    alt="PostImage"
-                  />
-                <% }); %> 
-              <% } %>
-              <div class="blog-text">
-                <div class = "title">
-                  <p><%= post.desc %></p>
-                  <p>작성자: <%= post.author %></p>
-                  <span><%= post.updatedAt.toDateString() %></span>
-                </div>
+    <div class="container">
+      <div class="blog-content">
+        <div class="blog-item">
+          <div class="blog-img">
+            <% if (post.images && post.images.length > 0) { %> <%
+            post.images.forEach(image => { %>
+            <img
+              src="data:<%= image.contentType %>;base64, <%= image.data.toString('base64') %>"
+              alt="PostImage"
+            />
+            <% }); %> <% } %>
+            <div class="blog-text">
+              <div class="title">
+                <h2><%= post.title %></h2>
+                <p><%= post.desc %></p>
+                <p>작성자: <%= post.author %></p>
+                <span>작성일: <%= post.createdAt.toDateString() %></span>
               </div>
-              
+              <% if (loggedInUser && post.author === loggedInUser.username) { %>
+              <div class="options">
+                <form
+                  action="/delete-post/<%=post._id %>?_method=DELETE"
+                  method="POST"
+                >
+                  <button class="delete-button" type="submit">삭제</button>
+                </form>
+                <button
+                  class="edit-button"
+                  type="button"
+                  onclick="location.href='/edit-post/<%=post._id %>'"
+                >
+                  수정
+                </button>
+              </div>
+              <% } %>
             </div>
           </div>
         </div>
-    </section>
-
-
-    <!-- 추가적인 정보들을 표시할 수 있음 -->
-    <% if (loggedInUser && post.author === loggedInUser.username) { %>
-    <form action="/delete-post/<%=post._id %>?_method=DELETE" method="POST">
-      <button type="submit">삭제</button>
-    </form>
-    <a href="/edit-post/<%=post._id %>">수정</a>
-    <% } %>
+      </div>
+    </div>
 
     <a href="/">홈으로</a>
   </body>

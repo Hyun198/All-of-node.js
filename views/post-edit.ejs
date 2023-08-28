@@ -1,33 +1,69 @@
-<form
-  action="/update-post/<%= post._id %>?_method=PUT"
-  method="POST"
-  enctype="multipart/form-data"
->
-  <label for="title">제목</label>
-  <input
-    type="text"
-    id="title"
-    name="title"
-    value="<%= post.title %>"
-    required
-  />
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/postEdit.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="card-title">게시글 수정</h1>
+      <div class="left-section">
+        <label for="images">이미지 추가</label>
+        <input
+          type="file"
+          id="images"
+          name="images"
+          accept="image/*"
+          multiple
+        />
 
-  <label for="desc">본문</label>
-  <textarea id="desc" name="desc" required><%= post.desc %></textarea>
-  <label for="images">이미지 첨부</label>
-  <input type="file" id="images" name="images" accept="image/*" multiple />
-  <% post.images.forEach(image => { %>
-  <div>
-    <img
-      src="data:<%= image.contentType %>;base64, <%= image.data.toString('base64') %>"
-      alt="Post Image"
-    />
-    <input type="checkbox" name="deleteImages" value="<%= image._id %>" />
-    <label>이미지 삭제</label>
-  </div>
-  <% }) %>
-  <input type="hidden" name="deleteImages" value="" />
-  <!-- 추가: 빈 값으로 전송될 수 있도록 hidden input 추가 -->
-  <br />
-  <button type="submit">수정하기</button>
-</form>
+        <% post.images.forEach(image => { %>
+        <div class="image-container">
+          <div class="image-wrapper">
+            <img
+              src="data:<%= image.contentType %>;base64, <%= image.data.toString('base64') %>"
+              alt="Post Image"
+            />
+            <div class="delete-button">
+              <input
+                type="checkbox"
+                name="deleteImages"
+                value="<%= image._id %>"
+              />
+              <label class="checkbox-label">이미지 삭제</label>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+      <div class="right-section">
+        <form
+          action="/update-post/<%= post._id %>?_method=PUT"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <label for="title">제목</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="<%= post.title %>"
+            required
+          />
+
+          <label for="desc">본문</label>
+          <textarea id="desc" name="desc" class="desc" required>
+          <%= post.desc %></textarea
+          >
+
+          <input type="hidden" name="deleteImages" value="" />
+          <!-- 추가: 빈 값으로 전송될 수 있도록 hidden input 추가 -->
+          <br />
+          <button type="submit">수정하기</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
