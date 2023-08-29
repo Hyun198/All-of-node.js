@@ -22,12 +22,7 @@
           value="<%= user.username %>"
         />
         <label for="email">이메일:</label>
-        <input
-          type="date"
-          id="birthdate"
-          name="birthdate"
-          value="<%= user.birthdate.toDateString() %>"
-        />
+        <input type="text" id="email" name="email" value="<%= user.email %>" />
         <label for="profileImage">프로필 사진:</label>
         <input type="file" id="profileImage" name="profileImage" />
         <button type="submit">프로필 수정 완료</button>

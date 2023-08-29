@@ -110,19 +110,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/users', async (req, res) => {
-    try {
-        const users = await User.find();
-        res.render('users', {users});
-    } catch (err) {
-        console.error('유저 정보 불러오기 오류', err);
-        res.status(500).send('유저 정보 불러오기 오류');
-    }
-    
-    
-})
-
-
 
 
 
