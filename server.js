@@ -228,11 +228,12 @@ app.get('/profile-image/:userId', async (req, res) => {
     }
 });
 
-
+//!
 app.get('/profile/:userId', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
-
+        const username = req.session.user.username;
+        const userPosts = await Post.find({ author: username });
         if (!user) {
             return res.status(404).send('유저를 찾을 수 없습니다.');
         }
@@ -241,7 +242,7 @@ app.get('/profile/:userId', async (req, res) => {
         const isSameUser = loggedInUser && user._id.toString() === loggedInUser.id.toString();
         
         
-        res.render('profile', { user,loggedInUser, isSameUser });
+        res.render('profile', { user,loggedInUser, isSameUser,  userPosts });
     } catch (err) {
         console.error('프로필 페이지 오류:', err);
         return res.status(500).send('프로필 페이지 로등 중 오류가 발생했습니다.');

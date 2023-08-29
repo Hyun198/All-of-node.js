@@ -4,37 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/profile.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    />
     <title>Profile <%=user.username %></title>
   </head>
   <body>
     <div class="card">
-      <div class="profile-image">
+      <div class="profile-image-container">
         <img
+          class="profile-image"
           src="/profile-image/<%=user.id %>"
           alt="profile Image"
           width="400"
           height="700"
         />
+        <div class="profile-border"></div>
       </div>
       <div class="user-details">
-        <p>사용자명 : <%=user.username %></p>
+        <p class="user-details-font">사용자명 : <%=user.username %></p>
         <p>이메일 : <%=user.email %></p>
       </div>
-      <a href="/">홈으로</a>
-      <a href="/myPost">내가 쓴 게시글</a>
+
+      <!--내가 쓴 글 들을 보여주기-->
+
+      <h1 class="post-list">내가 쓴 게시글 목록</h1>
+      <ul class="post-ul">
+        <% userPosts.forEach(post => { %>
+        <li>
+          <a href="/posts/<%= post._id %>">
+            <span><%=post.title %></span>
+
+            <span class="post-list__date"
+              ><%= post.createdAt.toDateString() %>
+            </span>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
 
       <% if(isSameUser) { %>
-      <a href="/edit-profile/<%=user._id %>">프로필 수정</a>
-      <form
-        id="delete-form"
-        action="/delete-profile/<%=user.id %>?_method=DELETE"
-        method="POST"
-      >
-        <button type="submit">회원 탈퇴</button>
-      </form>
-      <form action="/logout" method="POST">
-        <button type="submit">로그아웃</button>
-      </form>
+      <div class="button-container">
+        <button
+          type="button"
+          onclick="location.href='/edit-profile/<%=user._id %>'"
+        >
+          프로필수정
+        </button>
+        <form
+          id="delete-form"
+          action="/delete-profile/<%=user.id %>?_method=DELETE"
+          method="POST"
+        >
+          <button type="submit">회원 탈퇴</button>
+        </form>
+        <form action="/logout" method="POST">
+          <button type="submit">로그아웃</button>
+        </form>
+      </div>
       <% } %>
     </div>
   </body>
