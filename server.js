@@ -12,15 +12,17 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const schedule = require('node-schedule');
 const sharp = require('sharp');
-const sendEmail = require('./email');
-const WebSocket = require('ws');
 
-const getTime = require('./getTime');
-const crawling = require('./crawling');
-const weathering = require('./weather');
+
+
+const sendEmail = require('./func/email');
+const getTime = require('./func/getTime');
+const crawling = require('./func/crawling');
+const weathering = require('./func/weather');
 
 const User = require('./model/User');
 const Post = require('./model/Post');
+
 const { cache } = require('ejs');
 
 const storage = multer.memoryStorage();
@@ -41,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
+
 
 //세션 저장
 app.use(session({
@@ -269,7 +272,7 @@ app.get('/edit-profile/:userId', async (req, res) => {
 app.put('/update-profile/:userId', upload.single('profileImage'), async (req, res) => {
     try {
         const userId = req.params.userId;
-        const { username, birthdate } = req.body;
+        const { username, email } = req.body;
         const updateUser = await User.findByIdAndUpdate(
             userId,
             { username, birthdate },
