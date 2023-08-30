@@ -485,28 +485,6 @@ app.post('/like/:postId', async (req, res) => {
 
 
 
-const MorningCrawling = schedule.scheduleJob('0 7 * * *', async () => {
-    try {
-        const morningFilePath = path.join('cgv', 'morning_data.txt');
-        let morningData = await fs.readFile(morningFilePath, 'utf-8').catch(() => null);
-        
-        if(!morningData) {
-            console.log('Morning_Cached data not found. performing inital crawling...');
-            await crawling.morningCrawling();
-            morningData = await fs.readFile(morningFilePath, 'utf-8');
-        }
-
-        const times = morningData.split("\n").filter(line => line.trim() !== '');
-
-        const timesFilePath = path.join('cgv', 'morning_data.txt');
-
-        const {minTime, maxTime} = await getTime.calculateTime(timesFilePath); 
-        console.log('Crawling at 7am completed');
-
-    } catch (error) {
-        console.error('Error: ', error);
-    }
-});
 
 
 app.get('/cgv', async (req, res) => {
