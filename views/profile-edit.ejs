@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="stylesheet" href="/profile_edit.css" />
     <title>Edit profile</title>
   </head>
   <body>
@@ -14,27 +14,26 @@
         method="POST"
         enctype="multipart/form-data"
       >
-        <label for="username">사용자 이름:</label>
+        <label for="username">사용자 이름</label>
         <input
           type="text"
           id="username"
           name="username"
           value="<%= user.username %>"
         />
-        <label for="email">이메일:</label>
+        <label for="email">이메일</label>
         <input type="text" id="email" name="email" value="<%= user.email %>" />
-        <label for="profileImage">프로필 사진:</label>
+        <label for="profileImage">프로필 사진</label>
         <input type="file" id="profileImage" name="profileImage" />
         <button type="submit">프로필 수정 완료</button>
       </form>
+      <img
+        src="/profile-image/<%=user.id %>"
+        alt="profile Image"
+        width="200"
+        height="200"
+      />
+      <p>현재 프로필 사진</p>
     </div>
-
-    현재 프로필 사진
-    <img
-      src="/profile-image/<%=user.id %>"
-      alt="profile Image"
-      width="400"
-      height="700"
-    />
   </body>
 </html>

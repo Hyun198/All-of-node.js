@@ -485,32 +485,11 @@ app.post('/like/:postId', async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const MorningCrawling = schedule.scheduleJob('0 7 * * *', async () => {
     try {
-        
         const morningFilePath = path.join('cgv', 'morning_data.txt');
         let morningData = await fs.readFile(morningFilePath, 'utf-8').catch(() => null);
         
-
         if(!morningData) {
             console.log('Morning_Cached data not found. performing inital crawling...');
             await crawling.morningCrawling();
