@@ -75,28 +75,28 @@
 
 ## 프로젝트 구조
 
-project-directory/
-├── models/
-│ ├── Post.js
-│ └── User.js
-├── public/
-│ ├── styles/
-│ │ └── style.css
-│ └── profile-images/
-│ └── default-profile.jpg  
- │  
- ├── views/
-│ ├── edit-profile.ejs
-│ ├── edit-post.ejs
-│ ├── home.ejs
-│ ├── login.ejs
-│ ├── my-posts.ejs
-│ ├── post.ejs
-│ ├── profile.ejs
-│ ├── signup.ejs
-│ └── create-post.ejs
-├── server.js
-└── package.json
+      project-directory/
+      ├── models/
+      │ ├── Post.js
+      │ └── User.js
+      ├── public/
+      │ ├── styles/
+      │ │ └── style.css
+      │ └── profile-images/
+      │ └── default-profile.jpg
+      │
+      ├── views/
+      │ ├── edit-profile.ejs
+      │ ├── edit-post.ejs
+      │ ├── home.ejs
+      │ ├── login.ejs
+      │ ├── my-posts.ejs
+      │ ├── post.ejs
+      │ ├── profile.ejs
+      │ ├── signup.ejs
+      │ └── create-post.ejs
+      ├── server.js
+      └── package.json
 
 ## 기여방법
 
