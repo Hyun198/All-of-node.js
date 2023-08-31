@@ -8,9 +8,11 @@
 - Express.js
 - MongoDB (데이터베이스)
 - Puppeteer (웹 크롤링 라이브러리)
+- Multer (이미지 업로드)
 - Sharp (이미지 크기조절)
 - OpenWeather API (날씨 정보 불러오기)
 - NodeEmailer (회원가입 시 가입한 이메일로 가입성공 이메일 보내기)
+- NodeScheduler (일정 주기로 프로그램 실행)
 
 ## 설치 및 실행
 
@@ -44,26 +46,68 @@
 1. 생성(Create)
 
    새로운 데이터를 생성합니다.
+   유저 회원가입(생성), 게시글 생성
 
 ...
 
 2. 조회(Read)
 
    모든 데이터를 조회하거나, 특정 데이터를 ID를 이용하여 조회합니다.
+   유저 로그인, 게시글 조회
 
 ...
 
 3. 업데이트(Update)
 
    기존 데이터를 업데이트합니다.
+   회원정보 및 게시글 수정
 
 ...
 
 4. 삭제(Delete)
 
    특정 데이터를 삭제합니다.
+   회원탈퇴 및 게시글 삭제
 
 ...
+
+5. 크롤링(Crawling)
+
+   지정한 url에서 원하는 정보를 크롤링. 해당 프로젝트에서는 CGV 영화시간 정보를 크롤링
+   스케쥴러를 사용하여 일정 주기로 크롤링을 실행.
+
+...
+
+6. 삭제(Delete)
+
+   특정 데이터를 삭제합니다.
+   회원탈퇴 및 게시글 삭제
+   ...
+
+## 프로젝트 구조
+
+project-directory/
+├── models/
+│ ├── Post.js
+│ └── User.js
+├── public/
+│ ├── styles/
+│ │ └── style.css
+│ └── profile-images/
+│ └── default-profile.jpg  
+ │  
+ ├── views/
+│ ├── edit-profile.ejs
+│ ├── edit-post.ejs
+│ ├── home.ejs
+│ ├── login.ejs
+│ ├── my-posts.ejs
+│ ├── post.ejs
+│ ├── profile.ejs
+│ ├── signup.ejs
+│ └── create-post.ejs
+├── server.js
+└── package.json
 
 ## 기여방법
 
