@@ -121,7 +121,10 @@ function getSelectedValue() {
             movie_min += 30;
             start_hour = movie_hour - Work_hour - 1;
             start_min = movie_min + Work_minu;
-            
+            if (start_min> 60){
+                start_min=start_min-60;
+                start_hour+=1;
+            }
 
             end_hour = start_hour + Work_hour;
             end_min = start_min + Work_minu + 30;
