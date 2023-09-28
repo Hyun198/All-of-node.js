@@ -104,58 +104,37 @@ function getSelectedValue() {
     } else if (Part == 'close') {
         console.log('마감1');
         
+        movie_min+=10;
+
         //본영화시간 먼저 계산
-        if (movie_min > 60) {
+        if (movie_min >= 60) {
             movie_hour += 1;
             movie_min -= 60;
-        } else {
-            movie_min = movie_min + 10;
-            if (movie_min >= 60) {
-                movie_hour += 1;
-                movie_min = movie_min - 60;
-            }
         }
-        console.log("영화 시작 시간 : " + movie_hour + "시" + movie_min + "분")
+        /* console.log("영화 시작 시간 : " + movie_hour + "시" + movie_min + "분") */
         //본영화 시간이 =movie_hour , movie_min
-        if (movie_min < 30) {
-            movie_min += 60;
-            start_hour = movie_hour - Work_hour - 1;
-            start_min = movie_min - Work_minu;
-            if (start_min> 60){
-                start_min=start_min-60;
-                start_hour+=1;
-            }
-
-            end_hour = start_hour + Work_hour;
-            end_min = start_min + Work_minu + 30;
-            if (end_min >= 60) {
-                end_min = end_min - 60;
-                end_hour += 1;
-            }
-           
-            document.getElementById('myLabel').innerHTML = "출근 시간 : " + start_hour + "시" + start_min + "분";
-            document.getElementById('output').innerHTML = '퇴근시간 : ' + end_hour + "시" + end_min + "분"; 
-            
-        } else {
-            start_min = movie_min -  Work_minu;
-            start_hour = movie_hour - Work_hour;
-
-            end_hour = start_hour + Work_hour;
-            end_min = start_min+  Work_minu;
-
-            if (end_min >= 60) {
-                end_min = end_min - 60;
-                end_hour += 1;
-            }
-           
-            document.getElementById('myLabel').innerHTML = "출근 시간 : " + start_hour + "시" + start_min + "분";
-            document.getElementById('output').innerHTML = '퇴근시간 : ' + end_hour + "시" + end_min + "분"; 
-            
-            
+        //마지막 영화에서 work time을 뺌
+        start_hour = movie_hour - Work_hour;
+        start_min = movie_min - Work_minu;
+        if (start_min < 0) {
+            start_min = start_min+60;
+            start_hour = start_hour - 1;
         }
+
+        console.log(start_hour);
+        console.log(start_min);
+        end_hour = movie_hour;
+        end_min = movie_min;
         
         
-    } else if (Part == 'close2') {
+        document.getElementById('myLabel').innerHTML = "출근 시간 : " + start_hour + "시" + start_min + "분";
+        document.getElementById('output').innerHTML = '퇴근시간 : ' + end_hour + "시" + end_min + "분"; 
+            
+        
+    
+            
+    }
+    else if (Part == 'close2') {
         console.log('마감2');
         console.log(movie_hour - Work_hour);
         console.log(movie_min - Work_minu);
