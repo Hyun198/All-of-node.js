@@ -116,11 +116,11 @@ function getSelectedValue() {
             }
         }
         console.log("영화 시작 시간 : " + movie_hour + "시" + movie_min + "분")
-        
+        //본영화 시간이 =movie_hour , movie_min
         if (movie_min < 30) {
-            movie_min += 30;
+            movie_min += 60;
             start_hour = movie_hour - Work_hour - 1;
-            start_min = movie_min + Work_minu;
+            start_min = movie_min - Work_minu;
             if (start_min> 60){
                 start_min=start_min-60;
                 start_hour+=1;
