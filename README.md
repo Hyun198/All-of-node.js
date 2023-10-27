@@ -1,6 +1,6 @@
 # Node.js Start Project CRUD , Crawling , OpenWeather API
 
-이 프로젝트는 Node.js를 사용하여 CRUD(Create, Read, Update, Delete) 기능을 구현하고, CGV 영화 시간표를 크롤링하며 시간을 계산하는 예제입니다.
+이 프로젝트는 Node.js를 사용하여 CRUD(Create, Read, Update, Delete) 기능을 구현하고, CGV 영화 시간표를 크롤링하며 시간을 계산하는 예제입니다. (코드 간략화가 필요하다)
 
 ## 기술 스택
 
